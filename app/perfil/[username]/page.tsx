@@ -25,6 +25,12 @@ interface UserProfile {
   whatsapp_enabled: boolean;
   privacy_settings: any;
   created_at: string;
+  bio?: string;
+  location?: string;
+  relationship?: string;
+  website?: string;
+  fans_count?: number;
+  views_count?: number;
 }
 
 const ProfileContent: React.FC<{ username: string }> = ({ username }) => {
