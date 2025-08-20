@@ -17,14 +17,22 @@ import Link from 'next/link';
 
 interface UserProfile {
   id: string;
-  name: string;
+  display_name: string;
   username: string;
   email: string;
-  avatar_url?: string;
+  photo_url?: string;
   phone?: string;
+  bio?: string;
+  location?: string;
+  birthday?: string;
+  relationship?: string;
   whatsapp_enabled: boolean;
   privacy_settings: any;
+  fans_count: number;
   created_at: string;
+  scrapy_count: number;
+  profile_views: number;
+  birth_date?: string;
 }
 
 const ProfileContent: React.FC<{ username: string }> = ({ username }) => {
@@ -152,14 +160,14 @@ const ProfileContent: React.FC<{ username: string }> = ({ username }) => {
               {/* Avatar */}
               <div className="relative">
                 <div className="w-32 h-32 rounded-full bg-white/20 flex items-center justify-center text-4xl font-bold overflow-hidden">
-                  {profile.avatar_url ? (
+                  {profile.photo_url ? (
                     <img 
-                      src={profile.avatar_url} 
-                      alt={profile.name}
+                      src={profile.photo_url} 
+                      alt={profile.display_name}
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    profile.name?.charAt(0)?.toUpperCase() || '?'
+                    profile.display_name?.charAt(0)?.toUpperCase() || '?'
                   )}
                 </div>
                 
@@ -169,7 +177,7 @@ const ProfileContent: React.FC<{ username: string }> = ({ username }) => {
 
               {/* Informações básicas */}
               <div className="flex-1 text-center md:text-left">
-                <h1 className="text-3xl font-bold mb-2">{profile.name}</h1>
+                <h1 className="text-3xl font-bold mb-2">{profile.display_name}</h1>
                 <p className="text-xl opacity-90 mb-2">@{profile.username}</p>
                 
                 <div className="flex items-center justify-center md:justify-start gap-2 text-sm opacity-80">
@@ -190,7 +198,7 @@ const ProfileContent: React.FC<{ username: string }> = ({ username }) => {
                 <div className="flex flex-col gap-3">
                   <FriendshipButtons
                     userId={profile.id}
-                    userName={profile.name}
+                    userName={profile.display_name}
                     userPhone={canViewPhone ? profile.phone : undefined}
                     whatsappEnabled={profile.whatsapp_enabled}
                     size="medium"
@@ -200,7 +208,7 @@ const ProfileContent: React.FC<{ username: string }> = ({ username }) => {
                   {isOnline && (
                     <CallButtons
                       userId={profile.id}
-                      userName={profile.name}
+                      userName={profile.display_name}
                       isOnline={isOnline}
                       size="medium"
                       layout="horizontal"
