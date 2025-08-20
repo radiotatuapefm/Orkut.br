@@ -52,7 +52,12 @@ export const WebRTCProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   // Inicializar socket.io
   useEffect(() => {
     if (user) {
-      socketRef.current = io('http://localhost:5001', {
+      const socketUrl = process.env.NODE_ENV === 'production' 
+        ? 'https://orkut-br.vercel.app'
+        : 'http://localhost:5001';
+      
+      socketRef.current = io(socketUrl, {
+        path: process.env.NODE_ENV === 'production' ? '/api/signaling' : '/socket.io',
         auth: {
           userId: user.id
         }

@@ -7,6 +7,22 @@ const nextConfig = {
     unoptimized: true,
     domains: ['images.pexels.com', 'woyyikaztjrhqzgvbhmn.supabase.co']
   },
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        net: false,
+        tls: false,
+      };
+    }
+    return config;
+  },
+  env: {
+    NEXT_PUBLIC_SOCKET_URL: process.env.NODE_ENV === 'production' 
+      ? 'https://orkut-br.vercel.app' 
+      : 'http://localhost:3000',
+  },
   async headers() {
     return [
       {
@@ -20,8 +36,8 @@ const nextConfig = {
               "style-src 'self' 'unsafe-inline'",
               "img-src 'self' data: https: blob:",
               "font-src 'self' data:",
-              "connect-src 'self' https://woyyikaztjrhqzgvbhmn.supabase.co wss://woyyikaztjrhqzgvbhmn.supabase.co https://vercel.live",
-              "media-src 'self' blob:",
+              "connect-src 'self' https://woyyikaztjrhqzgvbhmn.supabase.co wss://woyyikaztjrhqzgvbhmn.supabase.co https://vercel.live wss://orkut-br.vercel.app https://stun.l.google.com:19302 https://stun1.l.google.com:19302",
+              "media-src 'self' blob: mediastream:",
               "worker-src 'self' blob:",
               "frame-src 'self'",
               "object-src 'none'",

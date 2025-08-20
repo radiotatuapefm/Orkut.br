@@ -20,14 +20,19 @@ Uma recriação moderna do clássico Orkut, construída with tecnologias atuais 
 - ✅ Segurança RLS (Row Level Security)
 - ✅ Assistente de voz (Orky)
 - ✅ Content Security Policy configurado
+- ✅ **Sistema completo de chamadas WebRTC**
+  - 📞 Chamadas de áudio com controles avançados
+  - 📹 Chamadas de vídeo com compartilhamento de tela
+  - 🔔 Notificações com ringtone personalizado
+  - 🟢 Status online em tempo real
+  - 📱 Interface responsiva para mobile
 
 ### 🚧 **Em desenvolvimento:**
 - 🔄 Sistema de posts e comentários
 - 🔄 Sistema de amizades
 - 🔄 Scraps e depoimentos
 - 🔄 Mensagens privadas
-- 🔄 Chamadas de vídeo/áudio
-- 🔄 Sistema de notificações
+- 🔄 Sistema de notificações push
 
 ## 🛠️ Tecnologias
 
@@ -161,6 +166,15 @@ node setup-database-direct.js
 - Variáveis de ambiente já configuradas
 
 ## 📝 Changelog
+
+### v2.0.0 - Sistema WebRTC Completo
+- ✅ Chamadas de áudio e vídeo implementadas
+- ✅ Compartilhamento de tela funcional
+- ✅ Status online em tempo real
+- ✅ Notificações com ringtone personalizado
+- ✅ Interface responsiva para mobile
+- ✅ Auto-away após inatividade
+- ✅ Servidor de signaling Socket.io integrado
 
 ### v1.2.0 - Database Setup
 - ✅ Sistema de banco configurado

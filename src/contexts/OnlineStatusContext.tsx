@@ -31,7 +31,12 @@ export const OnlineStatusProvider: React.FC<{ children: React.ReactNode }> = ({ 
   // Conectar ao servidor de signaling
   useEffect(() => {
     if (user && !socket) {
-      const newSocket = io('http://localhost:5001', {
+      const socketUrl = process.env.NODE_ENV === 'production' 
+        ? 'https://orkut-br.vercel.app'
+        : 'http://localhost:5001';
+      
+      const newSocket = io(socketUrl, {
+        path: process.env.NODE_ENV === 'production' ? '/api/signaling' : '/socket.io',
         auth: {
           userId: user.id,
           userName: user.name || user.email
