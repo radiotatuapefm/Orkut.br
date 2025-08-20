@@ -1,0 +1,213 @@
+.call-buttons {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.call-buttons.horizontal {
+  flex-direction: row;
+}
+
+.call-buttons.vertical {
+  flex-direction: column;
+}
+
+/* Tamanhos */
+.call-buttons.small .call-button {
+  width: 32px;
+  height: 32px;
+  padding: 6px;
+}
+
+.call-buttons.small .call-button svg {
+  width: 16px;
+  height: 16px;
+}
+
+.call-buttons.medium .call-button {
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+}
+
+.call-buttons.medium .call-button svg {
+  width: 20px;
+  height: 20px;
+}
+
+.call-buttons.large .call-button {
+  width: 48px;
+  height: 48px;
+  padding: 10px;
+}
+
+.call-buttons.large .call-button svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* Botões */
+.call-button {
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  color: white;
+  font-size: 0.9rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.call-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.call-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.call-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Tipos de botão */
+.call-button.audio-call {
+  background: linear-gradient(135deg, #4caf50, #45a049);
+}
+
+.call-button.audio-call:hover:not(:disabled) {
+  background: linear-gradient(135deg, #45a049, #3d8b40);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+}
+
+.call-button.video-call {
+  background: linear-gradient(135deg, #2196f3, #1976d2);
+}
+
+.call-button.video-call:hover:not(:disabled) {
+  background: linear-gradient(135deg, #1976d2, #1565c0);
+  box-shadow: 0 4px 12px rgba(33, 150, 243, 0.4);
+}
+
+/* Estado de carregamento */
+.call-button.loading {
+  pointer-events: none;
+}
+
+.loading-spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Indicador offline */
+.offline-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  color: #9e9e9e;
+  margin-left: 0.5rem;
+}
+
+.call-buttons.vertical .offline-indicator {
+  margin-left: 0;
+  margin-top: 0.5rem;
+}
+
+/* Botões com labels */
+.call-buttons .call-button span {
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.call-buttons.small .call-button span {
+  font-size: 0.7rem;
+}
+
+.call-buttons.large .call-button span {
+  font-size: 0.9rem;
+}
+
+/* Layout vertical com labels */
+.call-buttons.vertical .call-button {
+  flex-direction: column;
+  padding: 0.75rem;
+  min-width: 60px;
+}
+
+.call-buttons.vertical .call-button span {
+  margin-top: 0.25rem;
+}
+
+/* Responsividade */
+@media (max-width: 480px) {
+  .call-buttons.horizontal {
+    gap: 0.25rem;
+  }
+  
+  .call-buttons.medium .call-button {
+    width: 36px;
+    height: 36px;
+    padding: 6px;
+  }
+  
+  .call-buttons.medium .call-button svg {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .call-buttons.large .call-button {
+    width: 42px;
+    height: 42px;
+    padding: 8px;
+  }
+  
+  .call-buttons.large .call-button svg {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+/* Estados especiais */
+.call-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+}
+
+.call-button:focus:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+/* Efeito ripple para feedback visual */
+.call-button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.3s ease, height 0.3s ease;
+}
+
+.call-button:active:not(:disabled)::before {
+  width: 100%;
+  height: 100%;
+}

@@ -1,0 +1,174 @@
+.audio-call-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.audio-call-container {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 20px;
+  padding: 2rem;
+  width: 400px;
+  max-width: 90vw;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  color: white;
+}
+
+.audio-call-header h2 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.5rem;
+  font-weight: 300;
+}
+
+.contact-name {
+  margin: 0 0 2rem 0;
+  font-size: 1.25rem;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+.audio-call-content {
+  margin: 2rem 0;
+}
+
+.audio-visualizer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.audio-wave {
+  display: flex;
+  gap: 4px;
+  height: 60px;
+  align-items: center;
+  justify-content: center;
+}
+
+.wave-bar {
+  width: 4px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.audio-wave.active .wave-bar {
+  animation: audioWave 1.5s ease-in-out infinite;
+}
+
+.audio-wave.active .wave-bar:nth-child(1) {
+  animation-delay: 0s;
+  height: 20px;
+}
+
+.audio-wave.active .wave-bar:nth-child(2) {
+  animation-delay: 0.1s;
+  height: 35px;
+}
+
+.audio-wave.active .wave-bar:nth-child(3) {
+  animation-delay: 0.2s;
+  height: 50px;
+}
+
+.audio-wave.active .wave-bar:nth-child(4) {
+  animation-delay: 0.3s;
+  height: 35px;
+}
+
+.audio-wave.active .wave-bar:nth-child(5) {
+  animation-delay: 0.4s;
+  height: 20px;
+}
+
+.audio-wave.muted .wave-bar {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+@keyframes audioWave {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scaleY(0.5);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+.call-status {
+  font-size: 1rem;
+  opacity: 0.8;
+  font-weight: 300;
+}
+
+.audio-call-controls {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.control-button {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  color: white;
+}
+
+.control-button:hover {
+  transform: scale(1.1);
+}
+
+.control-button.active {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.control-button.muted {
+  background: rgba(255, 77, 77, 0.8);
+}
+
+.control-button.end-call {
+  background: #ff4757;
+}
+
+.control-button.end-call:hover {
+  background: #ff3838;
+}
+
+/* Responsividade */
+@media (max-width: 480px) {
+  .audio-call-container {
+    width: 90vw;
+    padding: 1.5rem;
+  }
+  
+  .audio-call-header h2 {
+    font-size: 1.25rem;
+  }
+  
+  .contact-name {
+    font-size: 1.1rem;
+  }
+  
+  .control-button {
+    width: 50px;
+    height: 50px;
+  }
+}
