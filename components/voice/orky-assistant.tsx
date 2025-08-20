@@ -139,9 +139,13 @@ export function OrkyAssistant({ onAction }: OrkyAssistantProps) {
   }
 
   const quickActions = [
-    { label: 'Ler Feed', command: 'Leia meu feed', icon: MessageCircle },
-    { label: 'Chamar Amigo', command: 'Quero fazer uma ligação', icon: Phone },
-    { label: 'Ver Comunidades', command: 'Mostrar minhas comunidades', icon: Users },
+    { label: 'Ler Feed', command: 'Leia meu feed de posts', icon: MessageCircle, category: 'navegação' },
+    { label: 'Ver Perfil', command: 'Ir para meu perfil', icon: Users, category: 'navegação' },
+    { label: 'Buscar Pessoas', command: 'Quero buscar pessoas', icon: Users, category: 'social' },
+    { label: 'Ver Comunidades', command: 'Mostrar comunidades', icon: Users, category: 'navegação' },
+    { label: 'Ver Mensagens', command: 'Ver minhas mensagens', icon: MessageCircle, category: 'mensagens' },
+    { label: 'Fazer Ligação', command: 'Quero fazer uma ligação', icon: Phone, category: 'comunicação' },
+    { label: 'Ajuda', command: 'Como usar o Orkut?', icon: MessageCircle, category: 'ajuda' },
   ]
 
   return (

@@ -29,8 +29,8 @@ export function Navbar() {
     { icon: Home, label: 'início', href: '/' },
     { icon: User, label: 'perfil', href: '/perfil' },
     { icon: Users, label: 'amigos', href: '/amigos' },
-    { icon: MessageCircle, label: 'comunidades', href: '/comunidades' },
-    { icon: MessageCircle, label: 'mensagens', href: '/mensagens' },
+    { icon: Users, label: 'comunidades', href: '/comunidades' },
+    { icon: MessageCircle, label: 'mensagens', href: '/recados' },
     { icon: Search, label: 'buscar', href: '/buscar' },
   ]
 
