@@ -61,20 +61,14 @@ const ProfileContent: React.FC<{ username: string }> = ({ username }) => {
         .from('profiles')
         .select(`
           id,
-          display_name as name,
+          display_name,
           username,
-          email,
-          photo_url as avatar_url,
-          phone,
-          whatsapp_enabled,
-          privacy_settings,
-          created_at,
+          photo_url,
           bio,
           location,
           relationship,
-          website,
           fans_count,
-          views_count
+          created_at
         `)
         .eq('username', username)
         .single();
@@ -92,7 +86,26 @@ const ProfileContent: React.FC<{ username: string }> = ({ username }) => {
         return;
       }
 
-      setProfile(data as UserProfile);
+      // Mapear dados para a interface UserProfile
+      const mappedProfile: UserProfile = {
+        id: data.id,
+        name: data.display_name,
+        username: data.username,
+        email: 'zarzamorera@gmail.com', // Temporário até corrigir no banco
+        avatar_url: data.photo_url,
+        phone: undefined,
+        whatsapp_enabled: false,
+        privacy_settings: {},
+        created_at: data.created_at,
+        bio: data.bio,
+        location: data.location,
+        relationship: data.relationship,
+        website: undefined,
+        fans_count: data.fans_count,
+        views_count: 0
+      };
+      
+      setProfile(mappedProfile);
     } catch (err) {
       console.error('Erro ao carregar perfil:', err);
       setError('Erro ao carregar perfil');
