@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/auth-context-fallback'
 import { Navbar } from '@/components/layout/navbar'
+import { Footer } from '@/components/layout/footer'
 import { OrkyAssistant } from '@/components/voice/orky-assistant'
 import { OrkutCard, OrkutCardContent, OrkutCardHeader } from '@/components/ui/orkut-card'
 import { Button } from '@/components/ui/button'
@@ -450,6 +451,7 @@ export default function HomePage() {
         </div>
       </div>
 
+      <Footer />
       <OrkyAssistant />
     </div>
   )
