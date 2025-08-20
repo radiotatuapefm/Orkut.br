@@ -4,15 +4,9 @@
 export const dynamic = 'force-dynamic'
 
 import React, { useEffect, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
-import { useAuth } from '@/contexts/auth-context-fallback';
-import { Navbar } from '@/components/layout/navbar';
-import { FriendsProvider, useFriends } from '@/contexts/FriendsContext';
-import { FriendshipButtons } from '@/components/FriendshipButtons';
-import { CallButtons } from '@/components/CallButtons';
-import { useUserOnlineStatus } from '@/contexts/OnlineStatusContext';
-import { Calendar, MapPin, Globe, Mail, Shield, Settings } from 'lucide-react';
+import { Calendar, MapPin, Globe, Mail } from 'lucide-react';
 import Link from 'next/link';
 
 interface UserProfile {
@@ -34,16 +28,14 @@ interface UserProfile {
 }
 
 const ProfileContent: React.FC<{ username: string }> = ({ username }) => {
-  const { user: currentUser } = useAuth();
-  const { getFriendshipStatus } = useFriends();
-  
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [friendshipStatus, setFriendshipStatus] = useState<string>('none');
   
-  // Status online do usuário visualizado
-  const { isOnline, status, lastSeen } = useUserOnlineStatus(profile?.id || '');
+  // Valores mock para status online
+  const isOnline = false;
+  const status = 'offline';
+  const lastSeen = null;
 
   useEffect(() => {
     if (username) {
@@ -147,18 +139,8 @@ const ProfileContent: React.FC<{ username: string }> = ({ username }) => {
     }
   };
 
-  // Carregar status de amizade quando o perfil for carregado
-  useEffect(() => {
-    if (profile?.id && currentUser?.id && !isOwnProfile) {
-      const status = getFriendshipStatus(profile.id);
-      setFriendshipStatus(status);
-    }
-  }, [profile?.id, currentUser?.id, getFriendshipStatus]);
-
-  const isOwnProfile = currentUser?.id === profile?.id;
-  const canViewPhone = isOwnProfile || 
-    (profile?.privacy_settings?.phone_visibility === 'public') ||
-    (profile?.privacy_settings?.phone_visibility === 'friends' && friendshipStatus === 'accepted');
+  const isOwnProfile = false; // Simplificado para visualização pública
+  const canViewPhone = true; // Permitir visualização para demo
 
   if (loading) {
     return (
@@ -188,7 +170,11 @@ const ProfileContent: React.FC<{ username: string }> = ({ username }) => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-100 to-pink-100">
-      <Navbar />
+      {/* Navbar temporariamente removida para debug */}
+      <div className="bg-gradient-to-r from-purple-600 to-pink-600 p-4 text-white text-center">
+        <h1 className="text-2xl font-bold">Orkut Retrô</h1>
+        <p>Perfil de {profile?.name}</p>
+      </div>
       <div className="container mx-auto px-4 py-8">
         {/* Header do perfil */}
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden mb-8">
@@ -230,41 +216,12 @@ const ProfileContent: React.FC<{ username: string }> = ({ username }) => {
                 </div>
               </div>
 
-              {/* Botões de ação */}
-              {!isOwnProfile && (
-                <div className="flex flex-col gap-3">
-                  <FriendshipButtons
-                    userId={profile.id}
-                    userName={profile.name}
-                    userPhone={canViewPhone ? profile.phone : undefined}
-                    whatsappEnabled={profile.whatsapp_enabled}
-                    size="medium"
-                    layout="vertical"
-                  />
-                  
-                  {isOnline && (
-                    <CallButtons
-                      userId={profile.id}
-                      userName={profile.name}
-                      isOnline={isOnline}
-                      size="medium"
-                      layout="horizontal"
-                    />
-                  )}
+              {/* Botões de ação simplificados */}
+              <div className="flex flex-col gap-3">
+                <div className="bg-white/20 px-4 py-2 rounded-lg text-center">
+                  <p className="text-sm">Perfil Público</p>
                 </div>
-              )}
-
-              {isOwnProfile && (
-                <div className="flex flex-col gap-2">
-                  <Link
-                    href="/configuracoes"
-                    className="flex items-center gap-2 bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition-colors"
-                  >
-                    <Settings size={16} />
-                    Editar Perfil
-                  </Link>
-                </div>
-              )}
+              </div>
             </div>
           </div>
         </div>
@@ -352,11 +309,7 @@ const ProfilePage: React.FC = () => {
   const params = useParams();
   const username = params?.username as string;
   
-  return (
-    <FriendsProvider>
-      <ProfileContent username={username} />
-    </FriendsProvider>
-  );
+  return <ProfileContent username={username} />;
 };
 
 export default ProfilePage;
