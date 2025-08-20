@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useAuth } from '@/contexts/auth-context'
+import { useAuth } from '@/contexts/auth-context-fallback'
 import { Navbar } from '@/components/layout/navbar'
 import { OrkyAssistant } from '@/components/voice/orky-assistant'
 import { OrkutCard, OrkutCardContent, OrkutCardHeader } from '@/components/ui/orkut-card'
@@ -101,6 +101,18 @@ export default function ProfilePage() {
   const loadProfile = async () => {
     if (!profileId) return
 
+    // In fallback mode, use the current user's profile
+    if (profileId === user?.id && currentUserProfile) {
+      setProfile({
+        ...currentUserProfile,
+        profile_views: 0,
+        scrapy_count: 0,
+        birth_date: currentUserProfile.birthday
+      })
+      setLoadingProfile(false)
+      return
+    }
+
     try {
       const { data, error } = await supabase
         .from('profiles')
@@ -112,6 +124,15 @@ export default function ProfilePage() {
       setProfile(data)
     } catch (error) {
       console.error('Error loading profile:', error)
+      // Fallback for when Supabase is not available
+      if (profileId === user?.id && currentUserProfile) {
+        setProfile({
+          ...currentUserProfile,
+          profile_views: 0,
+          scrapy_count: 0,
+          birth_date: currentUserProfile.birthday
+        })
+      }
     } finally {
       setLoadingProfile(false)
     }
@@ -134,6 +155,8 @@ export default function ProfilePage() {
       setScraps(data || [])
     } catch (error) {
       console.error('Error loading scraps:', error)
+      // Fallback: use empty array when Supabase is not available
+      setScraps([])
     }
   }
 
@@ -152,6 +175,8 @@ export default function ProfilePage() {
       setPhotos(data || [])
     } catch (error) {
       console.error('Error loading photos:', error)
+      // Fallback: use empty array when Supabase is not available
+      setPhotos([])
     }
   }
 

@@ -103,7 +103,14 @@ export class VoiceService {
       
       utterance.onerror = (event) => {
         this.currentUtterance = null
-        reject(new Error(`Speech synthesis error: ${event.error}`))
+        console.warn('Speech synthesis error:', event.error)
+        
+        // Don't reject for common, non-critical errors
+        if (event.error === 'interrupted' || event.error === 'canceled') {
+          resolve() // Treat as success since these are expected interruptions
+        } else {
+          reject(new Error(`Speech synthesis error: ${event.error}`))
+        }
       }
 
       this.currentUtterance = utterance

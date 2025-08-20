@@ -16,7 +16,7 @@ import {
   Mic,
   MicOff
 } from 'lucide-react'
-import { useAuth } from '@/contexts/auth-context'
+import { useAuth } from '@/contexts/auth-context-fallback'
 import { useVoice } from '@/contexts/voice-context'
 
 export function Navbar() {

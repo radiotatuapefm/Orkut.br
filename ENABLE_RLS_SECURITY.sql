@@ -178,15 +178,15 @@ CREATE POLICY "communities_select_policy" ON public.communities
 
 -- Política: Usuários autenticados podem criar comunidades
 CREATE POLICY "communities_insert_policy" ON public.communities
-    FOR INSERT WITH CHECK (auth.uid() = owner_id);
+    FOR INSERT WITH CHECK (auth.uid() = owner);
 
 -- Política: Apenas donos podem editar comunidades
 CREATE POLICY "communities_update_policy" ON public.communities
-    FOR UPDATE USING (auth.uid() = owner_id);
+    FOR UPDATE USING (auth.uid() = owner);
 
 -- Política: Apenas donos podem deletar comunidades
 CREATE POLICY "communities_delete_policy" ON public.communities
-    FOR DELETE USING (auth.uid() = owner_id);
+    FOR DELETE USING (auth.uid() = owner);
 
 -- 10. POLÍTICAS DE SEGURANÇA PARA COMMUNITY_MEMBERS
 -- =====================================================

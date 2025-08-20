@@ -2,9 +2,21 @@
 
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react'
 import { User } from '@supabase/supabase-js'
-import { supabase, Database } from '@/lib/supabase'
+import { supabase } from '@/lib/supabase'
 
-type Profile = Database['public']['Tables']['profiles']['Row']
+// Simplified profile type that matches our actual database schema
+type Profile = {
+  id: string
+  username: string
+  display_name: string
+  photo_url: string | null
+  relationship: string | null
+  location: string | null
+  birthday: string | null
+  bio: string | null
+  fans_count: number
+  created_at: string
+}
 
 interface AuthContextType {
   user: User | null
@@ -36,6 +48,28 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    // Safety timeout to prevent infinite loading
+    const safetyTimeout = setTimeout(() => {
+      console.warn('Safety timeout triggered - forcing loading to stop')
+      setLoading(false)
+      
+      // If we have a user but no profile, create a minimal one
+      if (user && !profile) {
+        setProfile({
+          id: user.id,
+          username: `user_${user.id.slice(-8)}`,
+          display_name: 'Usuário',
+          created_at: new Date().toISOString(),
+          photo_url: null,
+          bio: null,
+          location: null,
+          birthday: null,
+          relationship: null,
+          fans_count: 0
+        })
+      }
+    }, 10000) // 10 seconds timeout
+
     // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null)
@@ -43,7 +77,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
         loadProfile(session.user.id)
       } else {
         setLoading(false)
+        clearTimeout(safetyTimeout)
       }
+    }).catch((error) => {
+      console.error('Error getting session:', error)
+      setLoading(false)
+      clearTimeout(safetyTimeout)
     })
 
     // Listen for auth changes
@@ -56,25 +95,101 @@ export function AuthProvider({ children }: AuthProviderProps) {
           setProfile(null)
           setLoading(false)
         }
+        clearTimeout(safetyTimeout)
       }
     )
 
-    return () => subscription.unsubscribe()
+    return () => {
+      subscription.unsubscribe()
+      clearTimeout(safetyTimeout)
+    }
   }, [])
 
   const loadProfile = async (userId: string) => {
     try {
+      console.log('Loading profile for user:', userId)
+      
       const { data, error } = await supabase
         .from('profiles')
         .select('*')
         .eq('id', userId)
         .single()
 
-      if (error && error.code !== 'PGRST116') {
+      if (error) {
         console.error('Error loading profile:', error)
+        
+        // If profile doesn't exist, try to create it
+        if (error.code === 'PGRST116') {
+          console.log('Profile not found, creating one...')
+          try {
+            // Create a basic profile directly
+            const { data: createdProfile, error: createError } = await supabase
+              .from('profiles')
+              .insert({
+                id: userId,
+                username: `user_${userId.slice(-8)}`,
+                display_name: 'Usuário'
+              })
+              .select()
+              .single()
+              
+            if (!createError && createdProfile) {
+              setProfile(createdProfile)
+              console.log('Profile created successfully:', createdProfile)
+            } else {
+              console.error('Error creating profile:', createError)
+              // Set a minimal profile to prevent infinite loading
+              setProfile({
+                id: userId,
+                username: `user_${userId.slice(-8)}`,
+                display_name: 'Usuário',
+                created_at: new Date().toISOString(),
+                photo_url: null,
+                bio: null,
+                location: null,
+                birthday: null,
+                relationship: null,
+                fans_count: 0
+              })
+            }
+          } catch (createError) {
+            console.error('Error creating profile:', createError)
+            // Set a minimal profile to prevent infinite loading
+            setProfile({
+              id: userId,
+              username: `user_${userId.slice(-8)}`,
+              display_name: 'Usuário',
+              created_at: new Date().toISOString(),
+              photo_url: null,
+              bio: null,
+              location: null,
+              birthday: null,
+              relationship: null,
+              fans_count: 0
+            })
+          }
+        } else {
+          // For other errors, set a minimal profile to prevent infinite loading
+          setProfile({
+            id: userId,
+            username: `user_${userId.slice(-8)}`,
+            display_name: 'Usuário',
+            created_at: new Date().toISOString(),
+            photo_url: null,
+            bio: null,
+            location: null,
+            birthday: null,
+            relationship: null,
+            fans_count: 0
+          })
+        }
       } else if (data) {
         setProfile(data)
-        // Update presence
+        console.log('Profile loaded successfully:', data)
+      }
+
+      // Try to update presence (ignore errors)
+      try {
         await supabase
           .from('presence')
           .upsert({ 
@@ -82,8 +197,27 @@ export function AuthProvider({ children }: AuthProviderProps) {
             online: true, 
             last_seen: new Date().toISOString() 
           })
+      } catch (presenceError) {
+        console.log('Presence table not available, skipping...')
       }
+      
+    } catch (error) {
+      console.error('Unexpected error loading profile:', error)
+      // Set a minimal profile to prevent infinite loading
+      setProfile({
+        id: userId,
+        username: `user_${userId.slice(-8)}`,
+        display_name: 'Usuário',
+        created_at: new Date().toISOString(),
+        photo_url: null,
+        bio: null,
+        location: null,
+        birthday: null,
+        relationship: null,
+        fans_count: 0
+      })
     } finally {
+      console.log('Setting loading to false')
       setLoading(false)
     }
   }
@@ -114,49 +248,84 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
 
     if (data.user) {
-      // Create profile using safe function
-      const { error: profileError } = await supabase.rpc('create_profile_safe', {
-        user_id: data.user.id,
-        user_email: email
-      })
+      try {
+        // Try to create profile directly first
+        const { error: profileError } = await supabase
+          .from('profiles')
+          .insert({
+            id: data.user.id,
+            username: userData.username,
+            display_name: userData.displayName
+          })
 
-      if (profileError) {
-        console.error('Error creating profile:', profileError)
-        // Don't throw error, continue - profile might already exist
+        if (profileError) {
+          console.error('Error creating profile directly:', profileError)
+          
+          // Fallback: try using the safe function
+          try {
+            await supabase.rpc('create_profile_safe', {
+              user_id: data.user.id,
+              user_email: email
+            })
+            
+            // Update with custom data
+            await supabase
+              .from('profiles')
+              .update({
+                username: userData.username,
+                display_name: userData.displayName,
+              })
+              .eq('id', data.user.id)
+          } catch (safeError) {
+            console.error('Safe profile creation also failed:', safeError)
+            // Profile creation failed, but don't throw error - user is created
+          }
+        }
+
+        // Create settings (ignore errors if already exists)
+        try {
+          await supabase
+            .from('settings')
+            .insert({
+              profile_id: data.user.id,
+            })
+        } catch (settingsError) {
+          // Ignore errors if settings already exist
+          console.log('Settings creation failed, likely already exists')
+        }
+          
+      } catch (error) {
+        console.error('Error in profile setup:', error)
+        // Don't throw error - user is created, profile will be created on login
       }
-
-      // Update profile with custom data
-      await supabase
-        .from('profiles')
-        .update({
-          username: userData.username,
-          display_name: userData.displayName,
-        })
-        .eq('id', data.user.id)
-
-      // Create settings (ignore errors if already exists)
-      await supabase
-        .from('settings')
-        .insert({
-          profile_id: data.user.id,
-        })
-        .then(() => {})
-        .catch(() => {}) // Ignore errors
     }
   }
 
   const signOut = async () => {
-    // Update presence before signing out
+    setLoading(true)
+    
+    // Update presence before signing out (ignore errors)
     if (user) {
-      await supabase
-        .from('presence')
-        .update({ online: false })
-        .eq('profile_id', user.id)
+      try {
+        await supabase
+          .from('presence')
+          .update({ online: false })
+          .eq('profile_id', user.id)
+      } catch (error) {
+        console.log('Presence update failed, continuing with logout...')
+      }
     }
 
-    const { error } = await supabase.auth.signOut()
-    if (error) {
-      throw error
+    try {
+      const { error } = await supabase.auth.signOut()
+      if (error) {
+        throw error
+      }
+    } finally {
+      // Always reset the state, even if signOut fails
+      setUser(null)
+      setProfile(null)
+      setLoading(false)
     }
   }
 

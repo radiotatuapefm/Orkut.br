@@ -3,7 +3,7 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react'
 import { voiceService } from '@/lib/voice'
 import { supabase } from '@/lib/supabase'
-import { useAuth } from './auth-context'
+import { useAuth } from './auth-context-fallback'
 
 interface VoiceContextType {
   isVoiceEnabled: boolean
@@ -162,6 +162,9 @@ export function VoiceProvider({ children }: VoiceProviderProps) {
     try {
       setIsSpeaking(true)
       await voiceService.speak(text, options)
+    } catch (error) {
+      console.warn('Speech synthesis failed:', error)
+      // Don't throw error to prevent crashes
     } finally {
       setIsSpeaking(false)
     }

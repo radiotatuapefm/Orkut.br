@@ -18,7 +18,7 @@ import {
   Users
 } from 'lucide-react'
 import { useVoice } from '@/contexts/voice-context'
-import { useAuth } from '@/contexts/auth-context'
+import { useAuth } from '@/contexts/auth-context-fallback'
 import { geminiConcierge, GeminiAction } from '@/lib/gemini'
 import { useRouter } from 'next/navigation'
 
@@ -60,7 +60,17 @@ export function OrkyAssistant({ onAction }: OrkyAssistantProps) {
       }
     } catch (error) {
       console.error('Voice command error:', error)
-      speak('Desculpe, não consegui entender. Tente novamente.')
+      try {
+        await speak('Desculpe, não consegui entender. Tente novamente.')
+      } catch (speakError) {
+        console.warn('Failed to speak error message:', speakError)
+        // Add text message instead
+        setMessages(prev => [...prev, { 
+          text: 'Desculpe, não consegui entender. Tente novamente.', 
+          isUser: false, 
+          timestamp: new Date() 
+        }])
+      }
     } finally {
       setIsProcessing(false)
     }
