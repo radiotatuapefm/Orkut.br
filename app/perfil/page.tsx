@@ -74,7 +74,7 @@ export default function ProfilePage() {
   const { user, profile: currentUserProfile, loading } = useAuth()
   const router = useRouter()
   const searchParams = useSearchParams()
-  const profileId = searchParams.get('id') || user?.id
+  const profileId = searchParams?.get('id') || user?.id
   
   const [profile, setProfile] = useState<Profile | null>(null)
   const [scraps, setScraps] = useState<Scrap[]>([])

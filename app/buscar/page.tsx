@@ -69,7 +69,7 @@ export default function SearchPage() {
   const { user, profile, loading } = useAuth()
   const router = useRouter()
   const searchParams = useSearchParams()
-  const initialQuery = searchParams.get('q') || ''
+  const initialQuery = searchParams?.get('q') || ''
   
   const [searchQuery, setSearchQuery] = useState(initialQuery)
   const [users, setUsers] = useState<User[]>([])

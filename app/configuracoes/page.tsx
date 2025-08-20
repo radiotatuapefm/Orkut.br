@@ -1,25 +1,38 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/contexts/auth-context-fallback';
 import { EditProfileForm } from '@/components/EditProfileForm';
 import { Settings, ArrowLeft, User } from 'lucide-react';
 import Link from 'next/link';
 
+// Force dynamic rendering for this page
+export const dynamic = 'force-dynamic';
+
 const ConfiguracoesPage: React.FC = () => {
   const router = useRouter();
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
   const [activeTab, setActiveTab] = useState<'perfil' | 'privacidade' | 'notificacoes'>('perfil');
+  const [mounted, setMounted] = useState(false);
 
-  if (!user) {
-    router.push('/login');
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (mounted && !user) {
+      router.push('/login');
+    }
+  }, [mounted, user, router]);
+
+  if (!mounted || !user) {
     return null;
   }
 
   const handleProfileUpdateSuccess = () => {
     alert('Perfil atualizado com sucesso!');
-    router.push(`/perfil/${user.user_metadata?.username || user.id}`);
+    router.push(`/perfil/${profile?.username || user.id}`);
   };
 
   const tabs = [

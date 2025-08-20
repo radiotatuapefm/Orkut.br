@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
 import { io, Socket } from 'socket.io-client';
-import { useAuth } from './AuthContext';
+import { useAuth } from './auth-context-fallback';
 
 interface OnlineUser {
   userId: string;
@@ -22,7 +22,7 @@ interface OnlineStatusContextType {
 const OnlineStatusContext = createContext<OnlineStatusContextType | undefined>(undefined);
 
 export const OnlineStatusProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
   const [onlineUsers, setOnlineUsers] = useState<OnlineUser[]>([]);
   const [socket, setSocket] = useState<Socket | null>(null);
   const [isConnected, setIsConnected] = useState(false);
@@ -39,7 +39,7 @@ export const OnlineStatusProvider: React.FC<{ children: React.ReactNode }> = ({ 
         path: process.env.NODE_ENV === 'production' ? '/api/signaling' : '/socket.io',
         auth: {
           userId: user.id,
-          userName: user.name || user.email
+          userName: profile?.display_name || user.email || 'Usuário'
         }
       });
 
@@ -50,7 +50,7 @@ export const OnlineStatusProvider: React.FC<{ children: React.ReactNode }> = ({ 
         // Registrar usuário como online
         newSocket.emit('join', {
           userId: user.id,
-          userName: user.name || user.email
+          userName: profile?.display_name || user.email || 'Usuário'
         });
       });
 

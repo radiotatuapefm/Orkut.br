@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useWebRTC } from '../contexts/WebRTCContext';
-import './CallButtons.css';
+import { useWebRTC } from '@/contexts/webrtc-context';
+// CSS removido temporariamente até ser criado
 
 interface CallButtonsProps {
   userId: string;
@@ -19,7 +19,8 @@ export const CallButtons: React.FC<CallButtonsProps> = ({
   layout = 'horizontal',
   showLabels = false
 }) => {
-  const { startAudioCall, startVideoCall, isCallActive } = useWebRTC();
+  const { startAudioCall, startVideoCall, callState } = useWebRTC();
+  const isCallActive = callState.isInCall;
   const [isLoading, setIsLoading] = useState<'audio' | 'video' | null>(null);
 
   const handleAudioCall = async () => {
