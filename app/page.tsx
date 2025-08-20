@@ -343,23 +343,38 @@ export default function HomePage() {
             {/* Spotify Playlist */}
             <OrkutCard>
               <OrkutCardHeader>
-                <div className="flex items-center space-x-2">
-                  <span>🎵</span>
-                  <span>Playlist do Orkut</span>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-2">
+                    <span>🎵</span>
+                    <span>Playlist do Orkut</span>
+                  </div>
+                  <Link href="/playlists">
+                    <Button variant="ghost" size="sm" className="text-purple-600 hover:bg-purple-50 text-xs">
+                      Ver Mais
+                    </Button>
+                  </Link>
                 </div>
               </OrkutCardHeader>
               <OrkutCardContent>
-                <iframe 
-                  data-testid="embed-iframe" 
-                  style={{borderRadius: '12px'}} 
-                  src="https://open.spotify.com/embed/playlist/3f5hJGqa2P2DgI6cpNsnmG?utm_source=generator" 
-                  width="100%" 
-                  height="352" 
-                  frameBorder="0" 
-                  allowFullScreen
-                  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-                  loading="lazy"
-                />
+                <div className="space-y-3">
+                  <p className="text-sm text-gray-600 mb-3">
+                    Nostalgia dos anos 2000 - As músicas que marcaram época!
+                  </p>
+                  <iframe 
+                    data-testid="embed-iframe" 
+                    style={{borderRadius: '12px'}} 
+                    src="https://open.spotify.com/embed/playlist/2a7srdzr6N0teReSG1i7vJ?utm_source=generator" 
+                    width="100%" 
+                    height="352" 
+                    frameBorder="0" 
+                    allowFullScreen
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                    loading="lazy"
+                  />
+                  <div className="flex items-center justify-center pt-2 text-xs text-gray-400">
+                    <span>Clique play para ouvir no Spotify</span>
+                  </div>
+                </div>
               </OrkutCardContent>
             </OrkutCard>
 
