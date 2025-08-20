@@ -92,7 +92,7 @@ const ProfileContent: React.FC<{ username: string }> = ({ username }) => {
         return;
       }
 
-      setProfile(data);
+      setProfile(data as UserProfile);
     } catch (err) {
       console.error('Erro ao carregar perfil:', err);
       setError('Erro ao carregar perfil');
