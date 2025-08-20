@@ -118,8 +118,8 @@ export default function SearchPage() {
   const saveRecentSearch = (query: string) => {
     if (!query.trim()) return
     
-    const recent = JSON.parse(localStorage.getItem('recentSearches') || '[]')
-    const updated = [query, ...recent.filter(item => item !== query)].slice(0, 10)
+    const recent: string[] = JSON.parse(localStorage.getItem('recentSearches') || '[]')
+    const updated = [query, ...recent.filter((item: string) => item !== query)].slice(0, 10)
     localStorage.setItem('recentSearches', JSON.stringify(updated))
     setRecentSearches(updated.slice(0, 5))
   }
