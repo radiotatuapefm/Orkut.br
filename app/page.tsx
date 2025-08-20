@@ -346,7 +346,7 @@ export default function HomePage() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">
                     <span>🎵</span>
-                    <span>Playlist do Orkut</span>
+                    <span>Playlist Orkut</span>
                   </div>
                   <Link href="/playlists">
                     <Button variant="ghost" size="sm" className="text-purple-600 hover:bg-purple-50 text-xs">
@@ -358,7 +358,7 @@ export default function HomePage() {
               <OrkutCardContent>
                 <div className="space-y-3">
                   <p className="text-sm text-gray-600 mb-3">
-                    Nostalgia dos anos 2000 - As músicas que marcaram época!
+                    Uma seleção especial da Rádio Tatuapé FM com as músicas que marcaram época!
                   </p>
                   <iframe 
                     data-testid="embed-iframe" 

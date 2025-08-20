@@ -12,7 +12,7 @@ import { Music, Plus, TrendingUp, Heart, Clock } from 'lucide-react';
 const orkutPlaylists = [
   {
     id: '2a7srdzr6N0teReSG1i7vJ',
-    title: 'Nostalgia dos Anos 2000',
+    title: 'Playlist Orkut - Rádio Tatuapé FM',
     description: 'As músicas que marcaram época no Orkut',
     category: 'Nostalgia'
   },

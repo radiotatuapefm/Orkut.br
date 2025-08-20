@@ -13,7 +13,7 @@ interface OrkutPlaylistProps {
 
 const OrkutPlaylist: React.FC<OrkutPlaylistProps> = ({
   playlistId = '2a7srdzr6N0teReSG1i7vJ',
-  title = 'Playlist do Orkut',
+  title = 'Playlist Orkut',
   description = 'As melhores músicas para relembrar os bons tempos',
   theme = '0'
 }) => {
