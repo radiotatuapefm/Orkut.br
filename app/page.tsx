@@ -340,6 +340,29 @@ export default function HomePage() {
 
           {/* Right Sidebar */}
           <div className="space-y-6">
+            {/* Spotify Playlist */}
+            <OrkutCard>
+              <OrkutCardHeader>
+                <div className="flex items-center space-x-2">
+                  <span>🎵</span>
+                  <span>Playlist do Orkut</span>
+                </div>
+              </OrkutCardHeader>
+              <OrkutCardContent>
+                <iframe 
+                  data-testid="embed-iframe" 
+                  style={{borderRadius: '12px'}} 
+                  src="https://open.spotify.com/embed/playlist/3f5hJGqa2P2DgI6cpNsnmG?utm_source=generator" 
+                  width="100%" 
+                  height="352" 
+                  frameBorder="0" 
+                  allowFullScreen
+                  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                  loading="lazy"
+                />
+              </OrkutCardContent>
+            </OrkutCard>
+
             {/* Communities in Spotlight */}
             <OrkutCard>
               <OrkutCardHeader>
