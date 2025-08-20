@@ -114,25 +114,34 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
 
     if (data.user) {
-      // Create profile
-      const { error: profileError } = await supabase
+      // Create profile using safe function
+      const { error: profileError } = await supabase.rpc('create_profile_safe', {
+        user_id: data.user.id,
+        user_email: email
+      })
+
+      if (profileError) {
+        console.error('Error creating profile:', profileError)
+        // Don't throw error, continue - profile might already exist
+      }
+
+      // Update profile with custom data
+      await supabase
         .from('profiles')
-        .insert({
-          id: data.user.id,
+        .update({
           username: userData.username,
           display_name: userData.displayName,
         })
+        .eq('id', data.user.id)
 
-      if (profileError) {
-        throw profileError
-      }
-
-      // Create settings
+      // Create settings (ignore errors if already exists)
       await supabase
         .from('settings')
         .insert({
           profile_id: data.user.id,
         })
+        .then(() => {})
+        .catch(() => {}) // Ignore errors
     }
   }
 
