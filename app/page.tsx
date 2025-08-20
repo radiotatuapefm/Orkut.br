@@ -6,6 +6,7 @@ import { useAuth } from '@/contexts/auth-context-fallback'
 import { Navbar } from '@/components/layout/navbar'
 import { Footer } from '@/components/layout/footer'
 import { OrkyAssistant } from '@/components/voice/orky-assistant'
+import { CreatePost } from '@/components/posts/create-post'
 import { OrkutCard, OrkutCardContent, OrkutCardHeader } from '@/components/ui/orkut-card'
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
@@ -245,38 +246,7 @@ export default function HomePage() {
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-6">
             {/* Post Composer */}
-            <OrkutCard>
-              <OrkutCardContent>
-                <div className="flex space-x-3">
-                  <Avatar className="h-10 w-10">
-                    <AvatarImage src={profile.photo_url || undefined} alt={profile.display_name} />
-                    <AvatarFallback>
-                      {profile.display_name.charAt(0).toUpperCase()}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="flex-1">
-                    <textarea
-                      placeholder="O que você está pensando?"
-                      className="w-full p-3 border border-purple-200 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-purple-500"
-                      rows={3}
-                    />
-                    <div className="flex justify-between items-center mt-3">
-                      <div className="flex space-x-2">
-                        <Button size="sm" variant="outline" className="text-xs">
-                          📷 Foto
-                        </Button>
-                        <Button size="sm" variant="outline" className="text-xs">
-                          📍 Local
-                        </Button>
-                      </div>
-                      <Button size="sm" className="bg-purple-500 hover:bg-purple-600">
-                        Publicar
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </OrkutCardContent>
-            </OrkutCard>
+            <CreatePost onPostCreated={loadFeed} />
 
             {/* Feed Posts */}
             {loadingPosts ? (

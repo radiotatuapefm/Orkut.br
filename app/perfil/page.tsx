@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { useAuth } from '@/contexts/auth-context-fallback'
 import { Navbar } from '@/components/layout/navbar'
 import { OrkyAssistant } from '@/components/voice/orky-assistant'
+import { EditProfileModal } from '@/components/profile/edit-profile-modal'
 import { OrkutCard, OrkutCardContent, OrkutCardHeader } from '@/components/ui/orkut-card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -82,6 +83,7 @@ export default function ProfilePage() {
   const [sending, setSending] = useState(false)
   const [loadingProfile, setLoadingProfile] = useState(true)
   const [isOwnProfile, setIsOwnProfile] = useState(false)
+  const [editModalOpen, setEditModalOpen] = useState(false)
 
   useEffect(() => {
     if (!loading && !user) {
@@ -347,7 +349,11 @@ export default function ProfilePage() {
                   )}
 
                   {isOwnProfile && (
-                    <Button variant="outline" className="border-purple-300 text-purple-700">
+                    <Button 
+                      variant="outline" 
+                      className="border-purple-300 text-purple-700"
+                      onClick={() => setEditModalOpen(true)}
+                    >
                       <Edit className="h-4 w-4 mr-2" />
                       Editar Perfil
                     </Button>
@@ -659,6 +665,12 @@ export default function ProfilePage() {
           </div>
         </div>
       </div>
+
+      {/* Edit Profile Modal */}
+      <EditProfileModal 
+        open={editModalOpen} 
+        onOpenChange={setEditModalOpen}
+      />
 
       <OrkyAssistant />
     </div>
