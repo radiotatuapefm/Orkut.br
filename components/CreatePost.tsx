@@ -1,0 +1,129 @@
+'use client'
+
+import { useState } from 'react'
+import { useAuth } from '@/contexts/auth-context-fallback'
+import { OrkutCard, OrkutCardContent, OrkutCardHeader } from '@/components/ui/orkut-card'
+import { Button } from '@/components/ui/button'
+import { Textarea } from '@/components/ui/textarea'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { supabase } from '@/lib/supabase'
+import { Camera, Image, Smile, Send } from 'lucide-react'
+
+interface CreatePostProps {
+  onPostCreated?: () => void
+}
+
+export function CreatePost({ onPostCreated }: CreatePostProps) {
+  const { user, profile } = useAuth()
+  const [content, setContent] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!content.trim() || !user) return
+
+    setIsLoading(true)
+    try {
+      const { error } = await supabase
+        .from('posts')
+        .insert({
+          content: content.trim(),
+          author: user.id
+        })
+
+      if (error) throw error
+
+      setContent('')
+      onPostCreated?.()
+    } catch (error) {
+      console.error('Error creating post:', error)
+      alert('Erro ao criar post')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  if (!user || !profile) return null
+
+  return (
+    <OrkutCard>
+      <OrkutCardHeader>
+        <div className="flex items-center space-x-3">
+          <Avatar className="h-10 w-10">
+            <AvatarImage src={profile.photo_url || undefined} alt={profile.display_name} />
+            <AvatarFallback>
+              {profile.display_name.charAt(0).toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
+          <div>
+            <h3 className="font-medium text-gray-800">{profile.display_name}</h3>
+            <p className="text-sm text-gray-600">O que você está pensando?</p>
+          </div>
+        </div>
+      </OrkutCardHeader>
+      <OrkutCardContent>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <Textarea
+            placeholder="Compartilhe algo interessante..."
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            className="border-purple-300 focus:ring-purple-500 min-h-[100px] resize-none"
+            maxLength={500}
+          />
+          
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                className="text-purple-600 hover:bg-purple-50"
+              >
+                <Camera className="h-4 w-4 mr-1" />
+                Foto
+              </Button>
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                className="text-purple-600 hover:bg-purple-50"
+              >
+                <Image className="h-4 w-4 mr-1" />
+                Imagem
+              </Button>
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                className="text-purple-600 hover:bg-purple-50"
+              >
+                <Smile className="h-4 w-4 mr-1" />
+                Emoji
+              </Button>
+            </div>
+            
+            <div className="flex items-center space-x-2">
+              <span className="text-xs text-gray-500">
+                {content.length}/500
+              </span>
+              <Button
+                type="submit"
+                disabled={!content.trim() || isLoading}
+                className="bg-purple-500 hover:bg-purple-600"
+              >
+                {isLoading ? (
+                  'Publicando...'
+                ) : (
+                  <>
+                    <Send className="h-4 w-4 mr-1" />
+                    Publicar
+                  </>
+                )}
+              </Button>
+            </div>
+          </div>
+        </form>
+      </OrkutCardContent>
+    </OrkutCard>
+  )
+}

@@ -1,9 +1,13 @@
 'use client';
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic'
+
 import React, { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/contexts/auth-context-fallback';
+import { Navbar } from '@/components/layout/navbar';
 import { FriendsProvider, useFriends } from '@/contexts/FriendsContext';
 import { FriendshipButtons } from '@/components/FriendshipButtons';
 import { CallButtons } from '@/components/CallButtons';
@@ -139,6 +143,7 @@ const ProfileContent: React.FC<{ username: string }> = ({ username }) => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-100 to-pink-100">
+      <Navbar />
       <div className="container mx-auto px-4 py-8">
         {/* Header do perfil */}
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden mb-8">

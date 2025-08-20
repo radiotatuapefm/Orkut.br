@@ -27,7 +27,7 @@ export function Navbar() {
 
   const navItems = [
     { icon: Home, label: 'início', href: '/' },
-    { icon: User, label: 'perfil', href: '/perfil' },
+    { icon: User, label: 'perfil', href: profile?.username ? `/perfil/${profile.username}` : '/perfil' },
     { icon: Users, label: 'amigos', href: '/amigos' },
     { icon: Users, label: 'comunidades', href: '/comunidades' },
     { icon: MessageCircle, label: 'mensagens', href: '/recados' },
@@ -117,7 +117,7 @@ export function Navbar() {
             </Link>
 
             {/* Profile */}
-            <div className="flex items-center space-x-2">
+            <Link href={profile?.username ? `/perfil/${profile.username}` : '/perfil'} className="flex items-center space-x-2 hover:bg-white/10 rounded-lg px-2 py-1 transition-colors">
               <Avatar className="h-8 w-8 border-2 border-white">
                 <AvatarImage src={profile?.photo_url || undefined} alt={profile?.display_name} />
                 <AvatarFallback>
@@ -130,7 +130,7 @@ export function Navbar() {
               <Badge variant="secondary" className="bg-white/20 text-white border-white/30">
                 online
               </Badge>
-            </div>
+            </Link>
 
             {/* Sign Out */}
             <Button

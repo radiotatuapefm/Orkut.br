@@ -4,21 +4,26 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/auth-context-fallback'
 import { Navbar } from '@/components/layout/navbar'
-import { Footer } from '@/components/layout/footer'
 import { OrkyAssistant } from '@/components/voice/orky-assistant'
-import { CreatePost } from '@/components/posts/create-post'
+import { CreatePost } from '@/components/CreatePost'
+import { Footer } from '@/components/layout/footer'
 import { OrkutCard, OrkutCardContent, OrkutCardHeader } from '@/components/ui/orkut-card'
 import { Button } from '@/components/ui/button'
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { supabase } from '@/lib/supabase'
 import { 
   Heart, 
   MessageCircle, 
   Share, 
+  Eye, 
+  TrendingUp, 
   Users, 
-  Calendar,
-  TrendingUp,
+  Calendar, 
+  Plus, 
+  Search,
   Star,
   Camera,
   Phone,
@@ -26,6 +31,10 @@ import {
 } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
+import Link from 'next/link'
+
+// Force dynamic rendering
+export const dynamic = 'force-dynamic'
 
 interface Post {
   id: number

@@ -1,14 +1,14 @@
-'use client';
+'use client'
 
-import React, { useState, useEffect } from 'react';
+// Force dynamic rendering
+export const dynamic = 'force-dynamic'
+
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/auth-context-fallback';
 import { EditProfileForm } from '@/components/EditProfileForm';
 import { Settings, ArrowLeft, User } from 'lucide-react';
 import Link from 'next/link';
-
-// Force dynamic rendering for this page
-export const dynamic = 'force-dynamic';
 
 const ConfiguracoesPage: React.FC = () => {
   const router = useRouter();

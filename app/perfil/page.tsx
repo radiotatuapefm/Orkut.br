@@ -36,6 +36,9 @@ import { formatDistanceToNow } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import Link from 'next/link'
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic'
+
 interface Profile {
   id: string
   username: string
@@ -92,6 +95,12 @@ export default function ProfilePage() {
       return
     }
 
+    // If user is viewing their own profile and has a username, redirect to the username-based URL
+    if (user && currentUserProfile?.username && (!profileId || profileId === user.id)) {
+      router.push(`/perfil/${currentUserProfile.username}`)
+      return
+    }
+
     if (user && profileId) {
       setIsOwnProfile(profileId === user.id)
       loadProfile()
@@ -99,7 +108,7 @@ export default function ProfilePage() {
       loadPhotos()
       updateProfileViews()
     }
-  }, [user, loading, router, profileId])
+  }, [user, loading, router, profileId, currentUserProfile?.username])
 
   const loadProfile = async () => {
     if (!profileId) return

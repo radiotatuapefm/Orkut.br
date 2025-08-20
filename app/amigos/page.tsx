@@ -13,6 +13,9 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { supabase } from '@/lib/supabase'
 import Link from 'next/link'
+
+// Force dynamic rendering
+export const dynamic = 'force-dynamic'
 import { 
   Users, 
   Search, 

@@ -31,17 +31,21 @@ export const OnlineStatusProvider: React.FC<{ children: React.ReactNode }> = ({ 
   // Conectar ao servidor de signaling
   useEffect(() => {
     if (user && !socket) {
-      const socketUrl = process.env.NODE_ENV === 'production' 
-        ? 'https://orkut-br.vercel.app'
-        : 'http://localhost:5001';
-      
-      const newSocket = io(socketUrl, {
-        path: process.env.NODE_ENV === 'production' ? '/api/signaling' : '/socket.io',
-        auth: {
-          userId: user.id,
-          userName: profile?.display_name || user.email || 'Usuário'
-        }
-      });
+      try {
+        const socketUrl = process.env.NODE_ENV === 'production' 
+          ? 'https://orkut-br.vercel.app'
+          : 'http://localhost:5001';
+        
+        const newSocket = io(socketUrl, {
+          path: process.env.NODE_ENV === 'production' ? '/api/signaling' : '/socket.io',
+          timeout: 10000,
+          retries: 3,
+          auth: {
+            userId: user.id,
+            userName: profile?.display_name || user.email || 'Usuário'
+          },
+          transports: ['websocket', 'polling']
+        });
 
       newSocket.on('connect', () => {
         console.log('Conectado ao servidor de status online');
@@ -94,13 +98,22 @@ export const OnlineStatusProvider: React.FC<{ children: React.ReactNode }> = ({ 
         );
       });
 
-      setSocket(newSocket);
+        newSocket.on('connect_error', (error) => {
+          console.warn('Socket connection error:', error);
+          setIsConnected(false);
+        });
 
-      return () => {
-        newSocket.disconnect();
-        setSocket(null);
+        setSocket(newSocket);
+
+        return () => {
+          newSocket.disconnect();
+          setSocket(null);
+          setIsConnected(false);
+        };
+      } catch (error) {
+        console.warn('Failed to initialize socket connection:', error);
         setIsConnected(false);
-      };
+      }
     }
   }, [user, socket]);
 
