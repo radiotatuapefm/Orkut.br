@@ -23,32 +23,31 @@ const nextConfig = {
       ? 'https://orkut-br.vercel.app' 
       : 'http://localhost:3000',
   },
-  // Temporariamente removido CSP para debug
-  // async headers() {
-  //   return [
-  //     {
-  //       source: '/(.*)',
-  //       headers: [
-  //         {
-  //           key: 'Content-Security-Policy',
-  //           value: [
-  //             "default-src 'self'",
-  //             "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://vercel.live https://*.vercel.app https://va.vercel-scripts.com",
-  //             "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-  //             "img-src 'self' data: https: blob:",
-  //             "font-src 'self' data: https://fonts.gstatic.com",
-  //             "connect-src 'self' https://woyyikaztjrhqzgvbhmn.supabase.co wss://woyyikaztjrhqzgvbhmn.supabase.co https://vercel.live wss://orkut-br.vercel.app wss://*.vercel.app https://stun.l.google.com:19302 https://stun1.l.google.com:19302 https://vitals.vercel-insights.com",
-  //             "media-src 'self' blob: mediastream:",
-  //             "worker-src 'self' blob:",
-  //             "frame-src 'self' https://vercel.live",
-  //             "object-src 'none'",
-  //             "base-uri 'self'"
-  //           ].join('; ')
-  //         }
-  //       ]
-  //     }
-  //   ];
-  // },
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'Content-Security-Policy',
+            value: [
+              "default-src 'self'",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://vercel.live https://*.vercel.app https://va.vercel-scripts.com https://cdn.jsdelivr.net https://unpkg.com",
+              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+              "img-src 'self' data: https: blob:",
+              "font-src 'self' data: https://fonts.gstatic.com",
+              "connect-src 'self' https://woyyikaztjrhqzgvbhmn.supabase.co wss://woyyikaztjrhqzgvbhmn.supabase.co https://vercel.live wss://orkut-br.vercel.app wss://*.vercel.app https://stun.l.google.com:19302 https://stun1.l.google.com:19302 https://vitals.vercel-insights.com https://images.pexels.com",
+              "media-src 'self' blob: mediastream:",
+              "worker-src 'self' blob:",
+              "frame-src 'self' https://vercel.live",
+              "object-src 'none'",
+              "base-uri 'self'"
+            ].join('; ')
+          }
+        ]
+      }
+    ];
+  },
 };
 
 module.exports = nextConfig;
