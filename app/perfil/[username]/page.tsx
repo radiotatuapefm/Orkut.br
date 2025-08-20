@@ -50,17 +50,43 @@ const ProfileContent: React.FC<{ username: string }> = ({ username }) => {
       setLoading(true);
       setError(null);
 
+      // Usar consulta direta na tabela profiles
       const { data, error } = await supabase
-        .rpc('get_profile_by_username', { username_param: username });
+        .from('profiles')
+        .select(`
+          id,
+          display_name as name,
+          username,
+          email,
+          photo_url as avatar_url,
+          phone,
+          whatsapp_enabled,
+          privacy_settings,
+          created_at,
+          bio,
+          location,
+          relationship,
+          website,
+          fans_count,
+          views_count
+        `)
+        .eq('username', username)
+        .single();
 
-      if (error) throw error;
+      if (error) {
+        if (error.code === 'PGRST116') {
+          setError('Perfil não encontrado');
+          return;
+        }
+        throw error;
+      }
 
-      if (!data || data.length === 0) {
+      if (!data) {
         setError('Perfil não encontrado');
         return;
       }
 
-      setProfile(data[0]);
+      setProfile(data);
     } catch (err) {
       console.error('Erro ao carregar perfil:', err);
       setError('Erro ao carregar perfil');
