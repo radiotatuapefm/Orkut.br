@@ -12,6 +12,7 @@ import { Badge } from '@/components/ui/badge'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { supabase } from '@/lib/supabase'
+import Link from 'next/link'
 import { 
   Search, 
   Users, 
@@ -431,10 +432,12 @@ export default function SearchPage() {
                                   )}
                                 </div>
                                 <div className="flex space-x-2">
-                                  <Button size="sm" variant="outline" className="border-purple-300 text-purple-700">
-                                    <Eye className="h-3 w-3 mr-1" />
-                                    Ver
-                                  </Button>
+                                  <Link href={`/perfil/${user.username}`}>
+                                    <Button size="sm" variant="outline" className="border-purple-300 text-purple-700">
+                                      <Eye className="h-3 w-3 mr-1" />
+                                      Ver
+                                    </Button>
+                                  </Link>
                                   <Button size="sm" className="bg-purple-500 hover:bg-purple-600">
                                     <UserPlus className="h-3 w-3 mr-1" />
                                     Adicionar
@@ -567,9 +570,11 @@ export default function SearchPage() {
                               <p className="text-xs text-gray-400 mb-3">{user.location}</p>
                             )}
                             <div className="flex space-x-2">
-                              <Button size="sm" variant="outline" className="flex-1 border-purple-300 text-purple-700">
-                                Ver Perfil
-                              </Button>
+                              <Link href={`/perfil/${user.username}`} className="flex-1">
+                                <Button size="sm" variant="outline" className="w-full border-purple-300 text-purple-700">
+                                  Ver Perfil
+                                </Button>
+                              </Link>
                               <Button size="sm" className="flex-1 bg-purple-500 hover:bg-purple-600">
                                 Adicionar
                               </Button>

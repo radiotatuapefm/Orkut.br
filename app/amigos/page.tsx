@@ -12,6 +12,7 @@ import { Badge } from '@/components/ui/badge'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { supabase } from '@/lib/supabase'
+import Link from 'next/link'
 import { 
   Users, 
   Search, 
@@ -388,10 +389,12 @@ export default function FriendsPage() {
                             )}
 
                             <div className="flex flex-wrap gap-2 justify-center mb-4">
-                              <Button size="sm" variant="outline" className="border-purple-300 text-purple-700">
-                                <Eye className="h-3 w-3 mr-1" />
-                                Ver
-                              </Button>
+                              <Link href={`/perfil/${friend.username}`}>
+                                <Button size="sm" variant="outline" className="border-purple-300 text-purple-700">
+                                  <Eye className="h-3 w-3 mr-1" />
+                                  Ver
+                                </Button>
+                              </Link>
                               <Button size="sm" variant="outline" className="border-purple-300 text-purple-700">
                                 <Mail className="h-3 w-3 mr-1" />
                                 Msg
@@ -505,14 +508,16 @@ export default function FriendsPage() {
                               <Badge variant="secondary" className="mt-1">Aguardando resposta</Badge>
                             </div>
 
-                            <Button 
-                              size="sm" 
-                              variant="outline"
-                              className="border-purple-300 text-purple-700"
-                            >
-                              <Eye className="h-4 w-4 mr-2" />
-                              Ver Perfil
-                            </Button>
+                            <Link href={`/perfil/${request.username}`}>
+                              <Button 
+                                size="sm" 
+                                variant="outline"
+                                className="border-purple-300 text-purple-700"
+                              >
+                                <Eye className="h-4 w-4 mr-2" />
+                                Ver Perfil
+                              </Button>
+                            </Link>
                           </div>
                         </OrkutCardContent>
                       </OrkutCard>
@@ -571,14 +576,16 @@ export default function FriendsPage() {
                             </div>
 
                             <div className="flex space-x-2">
-                              <Button 
-                                size="sm" 
-                                variant="outline"
-                                className="border-purple-300 text-purple-700"
-                              >
-                                <Eye className="h-4 w-4 mr-2" />
-                                Ver
-                              </Button>
+                              <Link href={`/perfil/${user.username}`}>
+                                <Button 
+                                  size="sm" 
+                                  variant="outline"
+                                  className="border-purple-300 text-purple-700"
+                                >
+                                  <Eye className="h-4 w-4 mr-2" />
+                                  Ver
+                                </Button>
+                              </Link>
                               
                               {user.status === 'accepted' && (
                                 <Badge variant="secondary" className="bg-green-100 text-green-700">

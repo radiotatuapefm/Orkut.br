@@ -34,6 +34,7 @@ import {
 } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
+import Link from 'next/link'
 
 interface Profile {
   id: string
@@ -284,7 +285,9 @@ export default function ProfilePage() {
                 <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between">
                   <div>
                     <h1 className="text-3xl font-bold text-gray-800 mb-2">{profile.display_name}</h1>
-                    <p className="text-gray-600 mb-3">@{profile.username}</p>
+                    <Link href={`/perfil/${profile.username}`}>
+                      <p className="text-gray-600 mb-3 hover:text-purple-600 cursor-pointer transition-colors">@{profile.username}</p>
+                    </Link>
                     
                     {profile.bio && (
                       <p className="text-gray-700 mb-4 max-w-md">{profile.bio}</p>
@@ -533,7 +536,9 @@ export default function ProfilePage() {
                             <div className="flex items-start justify-between">
                               <div>
                                 <p className="font-medium text-gray-800">{scrap.from_profile.display_name}</p>
-                                <p className="text-sm text-gray-500">@{scrap.from_profile.username}</p>
+                                <Link href={`/perfil/${scrap.from_profile.username}`}>
+                                  <p className="text-sm text-gray-500 hover:text-purple-600 cursor-pointer transition-colors">@{scrap.from_profile.username}</p>
+                                </Link>
                               </div>
                               <div className="flex items-center space-x-2">
                                 <span className="text-xs text-gray-500">
