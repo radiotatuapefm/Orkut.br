@@ -143,15 +143,15 @@ const ProfileContent: React.FC<{ username: string }> = ({ username }) => {
     }
   };
 
+  const isOwnProfile = currentUser?.id === profile?.id;
+  
   // Carregar status de amizade quando o perfil for carregado
   useEffect(() => {
     if (profile?.id && currentUser?.id && !isOwnProfile) {
       const status = getFriendshipStatus(profile.id);
       setFriendshipStatus(status);
     }
-  }, [profile?.id, currentUser?.id, getFriendshipStatus]);
-
-  const isOwnProfile = currentUser?.id === profile?.id;
+  }, [profile?.id, currentUser?.id, getFriendshipStatus, isOwnProfile]);
   const canViewPhone = isOwnProfile || 
     (profile?.privacy_settings?.phone_visibility === 'public') ||
     (profile?.privacy_settings?.phone_visibility === 'friends' && friendshipStatus === 'accepted');
