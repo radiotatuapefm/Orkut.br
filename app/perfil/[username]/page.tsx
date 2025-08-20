@@ -401,6 +401,7 @@ const ProfileContent: React.FC<{ username: string }> = ({ username }) => {
                     </div>
                   </div>
                 </div>
+              </OrkutCardContent>
             </OrkutCard>
             
             {/* Profile Photos */}
