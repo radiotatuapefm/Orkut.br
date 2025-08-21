@@ -187,7 +187,7 @@ const ProfileContent: React.FC<{ username: string }> = ({ username }) => {
       <Navbar />
       
       <div className="max-w-7xl mx-auto px-4 py-6">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr_300px] xl:grid-cols-[320px_1fr_320px] gap-6">
           
           {/* Left Sidebar - Perfil do Usuário */}
           <div className="space-y-6">

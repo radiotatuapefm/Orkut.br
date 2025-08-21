@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { AuthProvider } from '@/contexts/auth-context-fallback';
 import { VoiceProvider } from '@/contexts/voice-context';
+import { OnlineStatusProvider } from '@/contexts/OnlineStatusContext';
 import { Toaster } from '@/components/ui/sonner';
 import { StructuredData } from '@/components/seo/structured-data';
 
@@ -115,10 +116,12 @@ export default function RootLayout({
       <body className={inter.className}>
         <StructuredData />
         <AuthProvider>
-          <VoiceProvider>
-            {children}
-            <Toaster />
-          </VoiceProvider>
+          <OnlineStatusProvider>
+            <VoiceProvider>
+              {children}
+              <Toaster />
+            </VoiceProvider>
+          </OnlineStatusProvider>
         </AuthProvider>
       </body>
     </html>
