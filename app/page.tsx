@@ -33,6 +33,9 @@ import { formatDistanceToNow } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import Link from 'next/link'
 import MyTunerWidget from '@/components/MyTunerWidget'
+import { CommentsModal } from '@/components/posts/comments-modal'
+import { ShareModal } from '@/components/posts/share-modal'
+import { UserMoodDisplay } from '@/components/status/user-mood-display'
 
 // Force dynamic rendering
 export const dynamic = 'force-dynamic'
@@ -185,6 +188,12 @@ export default function HomePage() {
                 <Badge variant="secondary" className="mb-3">
                   {profile.relationship || 'Solteiro(a)'}
                 </Badge>
+                
+                {/* User Status/Mood */}
+                <div className="mb-4">
+                  <UserMoodDisplay />
+                </div>
+                
                 <div className="space-y-2">
                   <Button 
                     size="sm" 
@@ -314,22 +323,41 @@ export default function HomePage() {
                             <Heart className="h-4 w-4 mr-1" />
                             {post.likes_count || 0}
                           </Button>
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            className="text-purple-600 hover:bg-purple-50"
+                          <CommentsModal 
+                            postId={post.id}
+                            commentsCount={post.comments_count || 0}
+                            onCommentsCountChange={(count) => {
+                              setPosts(prev => prev.map(p => 
+                                p.id === post.id 
+                                  ? { ...p, comments_count: count }
+                                  : p
+                              ))
+                            }}
                           >
-                            <MessageCircle className="h-4 w-4 mr-1" />
-                            {post.comments_count || 0}
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            className="text-purple-600 hover:bg-purple-50"
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              className="text-purple-600 hover:bg-purple-50"
+                            >
+                              <MessageCircle className="h-4 w-4 mr-1" />
+                              {post.comments_count || 0}
+                            </Button>
+                          </CommentsModal>
+                          <ShareModal 
+                            postId={post.id}
+                            postContent={post.content}
+                            postAuthor={post.author}
+                            onPostShared={loadFeed}
                           >
-                            <Share className="h-4 w-4 mr-1" />
-                            Compartilhar
-                          </Button>
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              className="text-purple-600 hover:bg-purple-50"
+                            >
+                              <Share className="h-4 w-4 mr-1" />
+                              Compartilhar
+                            </Button>
+                          </ShareModal>
                         </div>
                       </div>
                     </div>

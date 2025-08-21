@@ -19,6 +19,7 @@ import {
 } from 'lucide-react'
 import { useAuth } from '@/contexts/auth-context-fallback'
 import { useVoice } from '@/contexts/voice-context'
+import { NotificationsDropdown } from '@/components/notifications/notifications-dropdown'
 
 export function Navbar() {
   const router = useRouter()
@@ -80,6 +81,9 @@ export function Navbar() {
 
           {/* Right Side */}
           <div className="flex items-center space-x-4">
+            {/* Notifications */}
+            <NotificationsDropdown />
+            
             {/* Voice Toggle */}
             <Button
               variant="ghost"
