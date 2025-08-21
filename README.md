@@ -105,10 +105,21 @@ node setup-database-direct.js
 
 ## 🔧 Scripts Disponíveis
 
+### Desenvolvimento
 - `npm run dev` - Servidor de desenvolvimento
 - `npm run build` - Build de produção
 - `npm run start` - Servidor de produção
 - `npm run lint` - Verificação de código
+- `npm run type-check` - Verificação de tipos TypeScript
+
+### Deploy
+- `npm run deploy` - Deploy de produção no Vercel
+- `npm run deploy-preview` - Deploy de preview no Vercel
+- `./deploy.ps1` - Script automatizado de deploy (Windows)
+
+### Utilidades
+- `npm run clean` - Limpar cache de build
+- `npm run analyze` - Análise do bundle
 - `node setup-database-direct.js` - Verificar/configurar banco
 
 ## 🎨 Design System
@@ -166,6 +177,15 @@ node setup-database-direct.js
 - Variáveis de ambiente já configuradas
 
 ## 📝 Changelog
+
+### v2.1.0 - Performance & UX Improvements
+- ✅ **Correção de loops infinitos** nos contextos
+- ✅ **Otimização de polling** da API da rádio (2min)
+- ✅ **Melhoria dos links** da navbar com feedback visual
+- ✅ **Redução do carregamento** contínuo da página
+- ✅ **Layout da página de login** reorganizado
+- ✅ **Cache otimizado** nas APIs
+- ✅ **Script automatizado** de deploy (deploy.ps1)
 
 ### v2.0.0 - Sistema WebRTC Completo
 - ✅ Chamadas de áudio e vídeo implementadas

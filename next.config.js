@@ -5,7 +5,7 @@ const nextConfig = {
   },
   images: { 
     unoptimized: true,
-    domains: ['images.pexels.com', 'woyyikaztjrhqzgvbhmn.supabase.co']
+    domains: ['images.pexels.com', 'woyyikaztjrhqzgvbhmn.supabase.co', 'static2.mytuner.mobi']
   },
   webpack: (config, { isServer }) => {
     if (!isServer) {
