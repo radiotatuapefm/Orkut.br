@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { ExternalLink, Music, Users } from 'lucide-react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { ExternalLink, Music, Users, RefreshCw } from 'lucide-react';
 
 interface RadioWidgetProps {
   className?: string;
@@ -32,7 +32,7 @@ const RadioWidget: React.FC<RadioWidgetProps> = ({
   const radioWebsite = "https://radiotatuapefm.radiostream321.com/";
 
   // Função para buscar dados da rádio
-  const fetchRadioData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       console.log('🎵 Widget: Buscando dados da rádio...');
       const response = await fetch('/api/radio-status', {
@@ -50,7 +50,6 @@ const RadioWidget: React.FC<RadioWidgetProps> = ({
       const data = await response.json();
       console.log('🎵 Widget: Dados recebidos:', data);
       
-      // Verificar se realmente temos uma música válida
       if (data.currentSong && data.currentSong !== 'Rádio Tatuapé FM') {
         console.log('✅ Música válida encontrada:', data.currentSong);
       } else {
@@ -68,17 +67,22 @@ const RadioWidget: React.FC<RadioWidgetProps> = ({
     } finally {
       setIsLoading(false);
     }
+  }, []);
+
+  // Função para atualização manual
+  const handleManualRefresh = async () => {
+    setIsLoading(true);
+    await fetchData(); // Atualização manual
   };
 
   // Buscar dados ao carregar o componente
   useEffect(() => {
-    fetchRadioData();
+    fetchData(); // Busca inicial
     
-    // Atualizar dados a cada 30 segundos
-    const interval = setInterval(fetchRadioData, 30000);
+    const interval = setInterval(fetchData, 60000); // 1 minuto
     
     return () => clearInterval(interval);
-  }, []);
+  }, [fetchData]);
 
   // Função para abrir o site da rádio
   const openRadioWebsite = () => {
@@ -117,9 +121,19 @@ const RadioWidget: React.FC<RadioWidgetProps> = ({
         <div className="flex items-center space-x-2">
           <Music className="w-4 h-4 text-purple-500 flex-shrink-0" />
           <div className="min-w-0 flex-1">
-            <p className="text-xs text-gray-500 uppercase tracking-wide font-medium mb-1">
-              Tocando Agora
-            </p>
+            <div className="flex items-center justify-between mb-1">
+              <p className="text-xs text-gray-500 uppercase tracking-wide font-medium">
+                Tocando Agora
+              </p>
+              <button
+                onClick={handleManualRefresh}
+                disabled={isLoading}
+                className="p-1 hover:bg-gray-200 rounded transition-colors"
+                title="Atualizar agora"
+              >
+                <RefreshCw className={`w-3 h-3 text-gray-400 ${isLoading ? 'animate-spin' : 'hover:text-purple-500'}`} />
+              </button>
+            </div>
             <p className="text-sm font-medium text-gray-800 truncate">
               {isLoading ? (
                 <span className="inline-flex items-center space-x-1">
@@ -129,6 +143,11 @@ const RadioWidget: React.FC<RadioWidgetProps> = ({
                 radioData.currentSong
               )}
             </p>
+            {!isLoading && radioData.lastUpdated && (
+              <p className="text-xs text-gray-400 mt-1">
+                Atualizado: {new Date(radioData.lastUpdated).toLocaleTimeString('pt-BR')}
+              </p>
+            )}
             {radioData.error && (
               <p className="text-xs text-red-500 mt-1">{radioData.error}</p>
             )}

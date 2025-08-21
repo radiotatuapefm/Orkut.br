@@ -1,7 +1,27 @@
 import { NextResponse } from 'next/server';
 
+// Forçar renderização dinâmica
+export const dynamic = 'force-dynamic';
+
+// Cache simples em memória para evitar múltiplas requisições
+let cachedData: any = null;
+let lastFetch = 0;
+const CACHE_DURATION = 60000; // 1 minuto de cache
+
 export async function GET() {
   try {
+    const now = Date.now();
+    
+    // Se temos dados em cache e ainda são válidos, retornar do cache
+    if (cachedData && (now - lastFetch) < CACHE_DURATION) {
+      console.log('📦 Retornando dados do cache:', cachedData.currentSong);
+      return NextResponse.json({
+        ...cachedData,
+        fromCache: true,
+        cacheAge: now - lastFetch
+      });
+    }
+    
     console.log('🎵 Buscando dados da rádio via /played.html...');
     
     // Credentials para acessar o painel da rádio
@@ -43,30 +63,22 @@ export async function GET() {
       currentSong = match[1].trim();
       console.log('🎵 Método 1 - Música encontrada:', currentSong);
     } else {
-      // Método 2: Buscar por "Current Song" e extrair célula próxima
-      match = html.match(/>(.*?)<td[^>]*><b>Current Song<\/b>/i);
-      if (match) {
-        currentSong = match[1].trim();
-        console.log('🎵 Método 2 - Música encontrada:', currentSong);
-      } else {
-        // Método 3: Buscar qualquer padrão com "Current Song"
-        const currentSongIndex = html.toLowerCase().indexOf('current song');
-        if (currentSongIndex !== -1) {
-          // Pegar 200 chars antes de "Current Song" para ver o título
-          const start = Math.max(0, currentSongIndex - 200);
-          const snippet = html.substring(start, currentSongIndex + 50);
-          console.log('📄 Contexto do Current Song:', snippet);
-          
-          // Tentar extrair da primeira linha da tabela (horário mais recente)
-          const firstSongMatch = html.match(/<tr[^>]*><td[^>]*>(\d{2}:\d{2}:\d{2})<\/td><td[^>]*>([^<]+)/i);
-          if (firstSongMatch) {
-            currentSong = firstSongMatch[2].trim();
-            console.log('🎵 Método 3 - Primeira música (assumindo ser atual):', currentSong);
-            console.log('⏰ Horário:', firstSongMatch[1]);
-          }
+      // Método 2: Buscar pela primeira linha da tabela (música mais recente)
+      const firstRowMatch = html.match(/<tr[^>]*>\s*<td[^>]*>(\d{2}:\d{2}:\d{2})<\/td>\s*<td[^>]*>([^<]+?)<\/td>/i);
+      if (firstRowMatch) {
+        const songTitle = firstRowMatch[2].trim();
+        const timestamp = firstRowMatch[1];
+        
+        // Verificar se não é apenas o nome da rádio
+        if (songTitle && songTitle !== 'Rádio Tatuapé FM' && songTitle.length > 3) {
+          currentSong = songTitle;
+          console.log('🎵 Método 2 - Primeira música encontrada:', currentSong);
+          console.log('⏰ Timestamp:', timestamp);
         } else {
-          console.log('❌ "Current Song" não encontrado no HTML');
+          console.log('⚠️ Primeira linha não contém música válida:', songTitle);
         }
+      } else {
+        console.log('❌ Nenhum padrão de música encontrado no HTML');
       }
     }
     
@@ -92,6 +104,11 @@ export async function GET() {
     };
 
     console.log('✅ Dados extraídos:', radioData);
+    
+    // Salvar no cache
+    cachedData = radioData;
+    lastFetch = now;
+    
     return NextResponse.json(radioData);
     
   } catch (error) {

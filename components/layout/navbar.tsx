@@ -71,17 +71,15 @@ export function Navbar() {
                 const Icon = item.icon
                 const isActive = pathname === item.href
                 return (
-                  <Link key={item.href} href={item.href}>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className={`text-white hover:bg-white/20 transition-all duration-200 w-12 h-12 p-0 rounded-xl ${
-                        isActive ? 'bg-white/20 border-b-2 border-white' : ''
-                      }`}
-                      title={item.label.charAt(0).toUpperCase() + item.label.slice(1)}
-                    >
-                      <Icon className="h-6 w-6" />
-                    </Button>
+                  <Link 
+                    key={item.href} 
+                    href={item.href}
+                    className={`text-white hover:bg-white/20 transition-all duration-200 w-12 h-12 p-0 rounded-xl flex items-center justify-center relative z-10 ${
+                      isActive ? 'bg-white/20 border-b-2 border-white' : ''
+                    }`}
+                    title={item.label.charAt(0).toUpperCase() + item.label.slice(1)}
+                  >
+                    <Icon className="h-6 w-6" />
                   </Link>
                 )
               })}
@@ -91,15 +89,12 @@ export function Navbar() {
           {/* Right Side - Facebook Style */}
           <div className="flex items-center space-x-2">
             {/* Messages Icon */}
-            <Link href="/recados">
-              <Button
-                variant="ghost"
-                size="sm"
-                className="text-white hover:bg-white/20 w-10 h-10 p-0 rounded-full"
-                title="Mensagens"
-              >
-                <MessageCircle className="h-5 w-5" />
-              </Button>
+            <Link 
+              href="/recados"
+              className="text-white hover:bg-white/20 w-10 h-10 p-0 rounded-full flex items-center justify-center transition-all duration-200 relative z-10"
+              title="Mensagens"
+            >
+              <MessageCircle className="h-5 w-5" />
             </Link>
 
             {/* Notifications */}
