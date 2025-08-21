@@ -24,20 +24,23 @@ export function CreatePost({ onPostCreated }: CreatePostProps) {
 
     setIsLoading(true)
     try {
-      const { error } = await supabase
+      const { data, error } = await supabase
         .from('posts')
         .insert({
           content: content.trim(),
           author: user.id
         })
+        .select()
 
-      if (error) throw error
+      if (error) {
+        throw error
+      }
 
       setContent('')
       onPostCreated?.()
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error creating post:', error)
-      alert('Erro ao criar post')
+      alert(`Erro ao criar post: ${error.message || 'Erro desconhecido'}`)
     } finally {
       setIsLoading(false)
     }
