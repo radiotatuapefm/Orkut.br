@@ -63,12 +63,11 @@ export async function GET() {
       console.log('🎵 Música atual encontrada:', currentSong);
     }
     
-    // Extrair todas as músicas usando regex para linhas com timestamp
-    const songMatches = html.matchAll(/(\d{2}:\d{2}:\d{2})\s+([^\n]+?)(?:\s+Current Song)?/gi);
+    // Extrair todas as músicas usando abordagem compatível com TypeScript
+    const songRegex = /(\d{2}:\d{2}:\d{2})\s+([^\n]+?)(?:\s+Current Song)?/gi;
+    let match;
     
-    for (const match of songMatches) {
-      if (recentSongs.length >= 5) break;
-      
+    while ((match = songRegex.exec(html)) !== null && recentSongs.length < 5) {
       const time = match[1];
       const title = match[2].trim();
       const isCurrentSong = /Current Song/i.test(match[0]);
