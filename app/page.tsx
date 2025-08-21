@@ -32,7 +32,7 @@ import {
 import { formatDistanceToNow } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import Link from 'next/link'
-import OrkutPlaylistMini from '@/components/OrkutPlaylistMini'
+import MyTunerWidget from '@/components/MyTunerWidget'
 
 // Force dynamic rendering
 export const dynamic = 'force-dynamic'
@@ -341,12 +341,8 @@ export default function HomePage() {
 
           {/* Right Sidebar */}
           <div className="space-y-6">
-            {/* Radio Playlist */}
-            <OrkutPlaylistMini 
-              streamUrl="http://82.145.41.50/stream.mp3?ipport=82.145.41.50_16784"
-              title="Rádio Tatuapé FM"
-              description="Playlist Orkut - Ao Vivo"
-            />
+            {/* Radio Widget */}
+            <MyTunerWidget className="shadow-md" />
 
             {/* Communities in Spotlight */}
             <OrkutCard>
