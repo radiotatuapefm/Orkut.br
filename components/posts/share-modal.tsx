@@ -25,7 +25,6 @@ import {
   Facebook, 
   Twitter,
   Linkedin,
-  WhatsApp,
   Link2,
   Check,
   RefreshCw,
