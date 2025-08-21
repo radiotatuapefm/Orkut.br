@@ -4,9 +4,10 @@ import React from 'react';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
 import OrkutPlaylist from '@/components/OrkutPlaylist';
+import RadioPlayer from '@/components/RadioPlayer';
 import { OrkutCard, OrkutCardContent, OrkutCardHeader } from '@/components/ui/orkut-card';
 import { Button } from '@/components/ui/button';
-import { Music, Plus, TrendingUp, Heart, Clock } from 'lucide-react';
+import { Music, Plus, TrendingUp, Heart, Clock, Radio } from 'lucide-react';
 
 // Lista de playlists populares do Orkut
 const orkutPlaylists = [
@@ -55,6 +56,35 @@ const PlaylistsPage: React.FC = () => {
             <Plus className="h-4 w-4 mr-2" />
             Criar Nova Playlist
           </Button>
+        </div>
+
+        {/* Radio Live Player */}
+        <div className="mb-8">
+          <OrkutCard>
+            <OrkutCardHeader>
+              <div className="flex items-center space-x-2">
+                <Radio className="h-5 w-5 text-purple-500" />
+                <h2 className="text-xl font-semibold text-gray-800">Rádio Tatuapé FM - Ao Vivo</h2>
+                <span className="px-2 py-1 bg-red-100 text-red-600 text-xs font-medium rounded-full animate-pulse">
+                  • LIVE
+                </span>
+              </div>
+            </OrkutCardHeader>
+            <OrkutCardContent>
+              <div className="max-w-md mx-auto">
+                <p className="text-center text-gray-600 mb-4">
+                  Ouça agora a trilha sonora oficial do Orkut direto da Rádio Tatuapé FM!
+                </p>
+                <RadioPlayer
+                  streamUrl="http://82.145.41.50/stream.mp3?ipport=82.145.41.50_16784"
+                  title="Rádio Tatuapé FM"
+                  description="Playlist Orkut - Ao Vivo"
+                  showTitle={false}
+                  showControls={true}
+                />
+              </div>
+            </OrkutCardContent>
+          </OrkutCard>
         </div>
 
         {/* Stats Cards */}

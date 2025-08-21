@@ -32,6 +32,7 @@ import {
 import { formatDistanceToNow } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import Link from 'next/link'
+import OrkutPlaylistMini from '@/components/OrkutPlaylistMini'
 
 // Force dynamic rendering
 export const dynamic = 'force-dynamic'
@@ -340,43 +341,12 @@ export default function HomePage() {
 
           {/* Right Sidebar */}
           <div className="space-y-6">
-            {/* Spotify Playlist */}
-            <OrkutCard>
-              <OrkutCardHeader>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2">
-                    <span>🎵</span>
-                    <span>Playlist Orkut</span>
-                  </div>
-                  <Link href="/playlists">
-                    <Button variant="ghost" size="sm" className="text-purple-600 hover:bg-purple-50 text-xs">
-                      Ver Mais
-                    </Button>
-                  </Link>
-                </div>
-              </OrkutCardHeader>
-              <OrkutCardContent>
-                <div className="space-y-3">
-                  <p className="text-sm text-gray-600 mb-3">
-                    Uma seleção especial da Rádio Tatuapé FM com as músicas que marcaram época!
-                  </p>
-                  <iframe 
-                    data-testid="embed-iframe" 
-                    style={{borderRadius: '12px'}} 
-                    src="https://open.spotify.com/embed/playlist/2a7srdzr6N0teReSG1i7vJ?utm_source=generator" 
-                    width="100%" 
-                    height="352" 
-                    frameBorder="0" 
-                    allowFullScreen
-                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-                    loading="lazy"
-                  />
-                  <div className="flex items-center justify-center pt-2 text-xs text-gray-400">
-                    <span>Clique play para ouvir no Spotify</span>
-                  </div>
-                </div>
-              </OrkutCardContent>
-            </OrkutCard>
+            {/* Radio Playlist */}
+            <OrkutPlaylistMini 
+              streamUrl="http://82.145.41.50/stream.mp3?ipport=82.145.41.50_16784"
+              title="Rádio Tatuapé FM"
+              description="Playlist Orkut - Ao Vivo"
+            />
 
             {/* Communities in Spotlight */}
             <OrkutCard>
