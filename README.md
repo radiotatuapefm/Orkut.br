@@ -6,7 +6,7 @@
 
 Uma recriação moderna do clássico Orkut, construída with tecnologias atuais e design nostálgico.
 
-🔗 **Demo ao vivo:** https://orkut-akfk261jn-astridnielsen-labs-projects.vercel.app
+🔗 **Demo ao vivo:** https://orkut-br-gamma.vercel.app
 
 ## ✨ Funcionalidades
 
