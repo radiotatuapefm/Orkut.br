@@ -99,9 +99,9 @@ export const FriendsProvider: React.FC<{ children: React.ReactNode }> = ({ child
         requester_name: req.requester?.name || '',
         requester_username: req.requester?.username || '',
         requester_avatar: req.requester?.avatar_url || null,
-        addressee_name: user.user_metadata?.name || '',
-        addressee_username: user.user_metadata?.username || '',
-        addressee_avatar: user.user_metadata?.avatar_url || null
+        addressee_name: (user as any).user_metadata?.name || '',
+        addressee_username: (user as any).user_metadata?.username || '',
+        addressee_avatar: (user as any).user_metadata?.avatar_url || null
       })) || [];
 
       setPendingRequests(formattedReceived);
@@ -124,9 +124,9 @@ export const FriendsProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
       const formattedSent = sentData?.map(req => ({
         ...req,
-        requester_name: user.user_metadata?.name || '',
-        requester_username: user.user_metadata?.username || '',
-        requester_avatar: user.user_metadata?.avatar_url || null,
+        requester_name: (user as any).user_metadata?.name || '',
+        requester_username: (user as any).user_metadata?.username || '',
+        requester_avatar: (user as any).user_metadata?.avatar_url || null,
         addressee_name: req.addressee?.name || '',
         addressee_username: req.addressee?.username || '',
         addressee_avatar: req.addressee?.avatar_url || null
