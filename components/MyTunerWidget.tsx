@@ -1,146 +1,64 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 
-interface MyTunerWidgetProps {
+interface RadioWidgetProps {
   className?: string;
 }
 
-const MyTunerWidget: React.FC<MyTunerWidgetProps> = ({ 
+const RadioWidget: React.FC<RadioWidgetProps> = ({ 
   className = "" 
 }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    // Garantir que o widget seja inicializado quando o componente for montado
-    const initWidget = () => {
-      // O código JavaScript do widget será executado automaticamente
-      // através do script inline incluído no HTML
-    };
-
-    // Pequeno delay para garantir que o DOM esteja pronto
-    const timer = setTimeout(initWidget, 100);
-
-    return () => clearTimeout(timer);
-  }, []);
+  // Stream da Rádio Tatuapé FM do arquivo .m3u
+  const radioStream = "http://82.145.41.50/stream.mp3?ipport=82.145.41.50_16784";
 
   return (
-    <div 
-      ref={containerRef}
-      className={`w-full ${className}`}
-      dangerouslySetInnerHTML={{
-        __html: `
-          <div id="KcO1w7LDnCzCv1zDrERxw5o4w5ciw4fDtMKyw6XCuMOKw7M=" class="mytuner-widget" data-target="490545" data-requires_initialization="true" data-autoplay="true" data-hidehistory="false" style="width: 100%; max-width: 100%; overflow: hidden; max-height: 500px; border: 1px solid rgb(129, 127, 128); border-radius: 6px;">
-            <style type="text/css"> 
-              .mytuner-widget { all: initial; display: block; color: #3D3D3D; } 
-              .mytuner-widget, .mytuner-widget * { box-sizing: border-box; font-family: sans-serif; } 
-              .main-play-button { padding: 5px; border-radius: 20px; width: 40px; height: 40px; float: left; margin-left: 10px; margin-right: 15px; margin-top: 12.5px; cursor: pointer; background-color: #FFF; box-shadow: 1px 2px 6px -3px black; display: inline-block; } 
-              .main-play-button:hover { background-color: #EEE; } 
-              .main-play-button.disabled { filter: grayscale(1); cursor: not-allowed; } 
-              .main-play-button div { background: url("https://mytuner-radio.com/static/icons/widgets/BT_Play/BT_Play@2x.png") no-repeat center; background-size: 16px; width: 28px; height: 28px; margin-left: 3px; } 
-              .main-play-button.loading div { background: url("https://static2.mytuner.mobi/static/images/sprite-loading.gif") no-repeat center; filter: grayscale(1); background-size: 28px; margin-left: 2px; } 
-              .main-play-button.playing div { background: url("https://mytuner-radio.com/static/icons/widgets/BT_Pause/BT_Pause@2x.png") no-repeat center; background-size: 16px; margin-left: 2px; } 
-              .main-play-button.error div { background: url("https://mytuner-radio.com/static/icons/widgets/BT_Error/erro@2x.png") no-repeat center; background-size: 16px; margin-left: 0; } 
-              .play-button { background: url("https://mytuner-radio.com/static/icons/widgets/BT_Play/BT_Play.png") no-repeat center; width: 40px; height: 40px; cursor: pointer; display: inline-flex; align-items: center; margin: auto 4px auto 19px; } 
-              .play-button.loading { background: url("https://static2.mytuner.mobi/static/images/sprite-loading.gif") no-repeat center; filter: grayscale(1); background-size: 28px; } 
-              .play-button.playing { background: url("https://mytuner-radio.com/static/icons/widgets/BT_Pause/BT_Pause.png") no-repeat center; } 
-              .play-button.error { background: url("https://mytuner-radio.com/static/icons/widgets/BT_Error/erro.png") no-repeat center; background-size: 15px; } 
-              .play-button.disabled { opacity: 0.3; } 
-              .play-button.disabled:hover { cursor: not-allowed; } 
-              input[type=range][orient=vertical] { writing-mode: bt-lr; -webkit-appearance: slider-vertical; width: 8px; padding: 0 5px; } 
-              .volume-controls { width: 35px; height: 35px; display: inline-block; position: absolute; margin-left: 5px; margin-top: 14px; padding-top: 0; border-radius: 20px; box-sizing: content-box !important; z-index: 10; border: 1px solid transparent; transition: background 0.5s, padding 0.5s, margin 0.5s, border 0.5s; overflow: hidden; } 
-              .volume-controls:hover { padding-top: 140px; margin-top: -126px; background-color: #F2F2F2; border: 1px solid grey; transition: background 0.5s, padding 0.5s, margin 0.5s; } 
-              .volume-controls:hover > .volume-control { display: block; } 
-              .volume-controls .volume-control { opacity: 0; margin-top: -126px; margin-left: 13px; position: absolute; transition: 0.5s all; } 
-              .volume-controls:hover .volume-control { opacity: 1; } 
-              .volume-controls .volume-indicator { cursor: pointer; display: block; } 
-              .player-radio-link { width: calc(100% - 65px - 84px - 37px - 12px); } 
-              .player-radio-name { width: calc(100% - 74px - 10px); } 
-              .player-mytuner-logo { margin-left: 47px; } 
-              @media (max-width: 480px) { 
-                .player-radio-link { width: calc(100% - 65px - 84px - 12px); } 
-                .player-mytuner-logo { margin-left: 10px; } 
-                .volume-controls { display: none; } 
-              } 
-            </style>
-            <div id="KcO1w7LDnCzCv1zDrERxw5o4w5ciw4fDtMKyw6XCuMOKw7M=top-bar" style="background: rgb(255, 255, 255); height: 75px; width: 100%; display: block; padding: 5px; line-height: 65px;">
-              <div id="KcO1w7LDnCzCv1zDrERxw5o4w5ciw4fDtMKyw6XCuMOKw7M=play-button" class="main-play-button disabled" data-id="KcO1w7LDnCzCv1zDrERxw5o4w5ciw4fDtMKyw6XCuMOKw7M=">
-                <div class="play-image"></div>
-              </div>
-              <a class="player-radio-link" href="http://mytuner-radio.com/pt/radio/radio-tatuape-fm-490545/?utm_source=widget&utm_medium=player" rel="noopener" style="height: 100%; display: inline-block; line-height: 65px; cursor: pointer;">
-                <img src="https://static2.mytuner.mobi/media/tvos_radios/545/radio-tatuape-fm.b636f170.jpg" alt="Rádio Tatuape FM" style="float: left; height: 74px; margin-top: -5px; box-shadow: black 0px 0px 3px -1px;">
-                <span class="player-radio-name" style="margin-left: 10px; color: rgb(61, 61, 61); font-weight: bold; font-size: 20px; float: left; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Rádio Tatuape FM</span>
-              </a>
-              <div class="volume-controls">
-                <input id="KcO1w7LDnCzCv1zDrERxw5o4w5ciw4fDtMKyw6XCuMOKw7M=volume-control" class="volume-control slider" max="100" min="1" orient="vertical" type="range" value="100">
-                <svg id="KcO1w7LDnCzCv1zDrERxw5o4w5ciw4fDtMKyw6XCuMOKw7M=volume-indicator" class="volume-indicator" height="30" width="30" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="fill: grey; margin: 2px;">
-                  <path d="M3 10v4c0 .55.45 1 1 1h3l3.29 3.29c.63.63 1.71.18 1.71-.71V6.41c0-.89-1.08-1.34-1.71-.71L7 9H4c-.55 0-1 .45-1 1zm13.5 2c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 4.45v.2c0 .38.25.71.6.85C17.18 6.53 19 9.06 19 12s-1.82 5.47-4.4 6.5c-.36.14-.6.47-.6.85v.2c0 .63.63 1.07 1.21.85C18.6 19.11 21 15.84 21 12s-2.4-7.11-5.79-8.4c-.58-.23-1.21.22-1.21.85z"></path>
-                </svg>
-              </div>
-              <a class="player-mytuner-logo" href="https://mytuner-radio.com?utm_source=widget&utm_medium=player" rel="noopener" style="display: inline-block; vertical-align: top;">
-                <img src="https://mytuner-radio.com/static/icons/widgets/MyTuner_Logo/MyTunerLogo_Normal.png" alt="Listen on myTuner radio!" style="height: 36px; width: 84px; vertical-align: middle;">
-              </a>
+    <div className={`bg-white rounded-lg shadow-lg border overflow-hidden ${className}`}>
+      {/* Header */}
+      <div className="bg-gradient-to-r from-purple-500 to-pink-500 p-4 text-white">
+        <div className="flex items-center space-x-3">
+          <img 
+            src="https://static2.mytuner.mobi/media/tvos_radios/545/radio-tatuape-fm.b636f170.jpg" 
+            alt="Rádio Tatuapé FM" 
+            className="w-12 h-12 rounded-lg object-cover shadow-lg"
+          />
+          <div>
+            <h3 className="font-bold text-lg">Rádio Tatuapé FM</h3>
+            <div className="flex items-center space-x-2 text-sm opacity-90">
+              <span className="w-2 h-2 bg-red-400 rounded-full animate-pulse"></span>
+              <span>AO VIVO</span>
             </div>
-            <ul id="KcO1w7LDnCzCv1zDrERxw5o4w5ciw4fDtMKyw6XCuMOKw7M=song-history" data-border="1" data-bordercolor="#817f80" style="width: 100%; background-color: rgb(238, 238, 238); max-height: calc(415px); padding: 0px; margin: 0px; overflow-y: scroll;"></ul>
-            <script>
-              var mytuner_scripts = mytuner_scripts || {};
-              mytuner_scripts["player-v1.js_queue"] = mytuner_scripts["player-v1.js_queue"] || [];
-              if (mytuner_scripts["player-v1.js-imported"] == undefined) {
-                  mytuner_scripts["player-v1.js-imported"] = false;
-                  mytuner_scripts["player-v1.js"] = function(){};
-                  var s = document.createElement("script");
-                  s.type = "text/javascript";
-                  s.src = "https://mytuner-radio.com/static/js/widgets/player-v1.js";
-                  s.defer = true;
-                  if (s.readyState){
-                      s.onreadystatechange = function(){
-                          if (s.readyState == "loaded" || s.readyState == "complete"){
-                              s.onreadystatechange = null;
-                              runQueue();
-                          }
-                      };
-                  } else {
-                      s.onload = function(){ runQueue(); };
-                  }
-                  document.getElementsByTagName('head')[0].appendChild(s);
-
-                  function runQueue() {
-                      mytuner_scripts["player-v1.js_queue"].forEach(function(func) {
-                          func();
-                      });
-                  }
-                  mytuner_scripts["player-v1.js_queue"].push(function(){mytuner_scripts["player-v1.js"]("KcO1w7LDnCzCv1zDrERxw5o4w5ciw4fDtMKyw6XCuMOKw7M=")});
-              } else {
-                  let widget = document.getElementById("KcO1w7LDnCzCv1zDrERxw5o4w5ciw4fDtMKyw6XCuMOKw7M=");
-                  if (widget && widget.dataset.requires_initialization === "true") {
-                      if (mytuner_scripts["player-v1.js-imported"]) {
-                          mytuner_scripts["player-v1.js"]("KcO1w7LDnCzCv1zDrERxw5o4w5ciw4fDtMKyw6XCuMOKw7M=");
-                          widget.dataset.requires_initialization = "false";
-                      } else {
-                          mytuner_scripts["player-v1.js_queue"].push(function(){
-                              mytuner_scripts["player-v1.js"]("KcO1w7LDnCzCv1zDrERxw5o4w5ciw4fDtMKyw6XCuMOKw7M=");
-                              widget.dataset.requires_initialization = "false";
-                          });
-                      }
-                  }
-              }
-            </script>
-            <script>
-              var mytuner_scripts = mytuner_scripts || {};
-              if (mytuner_scripts["widget-player-v1.js-imported"] == undefined) {
-                  mytuner_scripts["widget-player-v1.js-imported"] = false;
-                  var s = document.createElement("script");
-                  s.type = "text/javascript";
-                  s.src = "https://mytuner-radio.com/static/js/widgets/widget-player-v1.js";
-                  s.defer = true;
-                  document.getElementsByTagName('head')[0].appendChild(s);
-              }
-            </script>
           </div>
-        `
-      }}
-    />
+        </div>
+      </div>
+
+      {/* Video Player with Audio Stream */}
+      <div className="p-4 bg-gray-50">
+        <div className="w-full">
+          <video 
+            controls 
+            autoPlay={false}
+            name="media"
+            className="w-full h-12 bg-gray-800 rounded-lg"
+            style={{ maxHeight: '48px' }}
+          >
+            <source 
+              src={radioStream} 
+              type="audio/mpeg" 
+            />
+            Seu navegador não suporta o elemento de áudio.
+          </video>
+        </div>
+        
+        {/* Info */}
+        <div className="mt-3 text-center">
+          <p className="text-sm text-gray-600">
+            🎵 Use os controles acima para ouvir a rádio
+          </p>
+        </div>
+      </div>
+    </div>
   );
 };
 
-export default MyTunerWidget;
+export default RadioWidget;
