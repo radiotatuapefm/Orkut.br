@@ -49,44 +49,57 @@ export async function GET() {
     const html = await response.text();
     console.log(`📄 HTML recebido (${html.length} chars)`);
     
-    // Extrair "Current Song" do HTML
+    // Extrair músicas do HTML baseado na estrutura real da tabela
     let currentSong = 'Rádio Tatuapé FM';
+    const recentSongs = [];
     
-    // No HTML, vemos: <td>03:43:25</td><td>Blur - M.O.R. - Live in Utrecht;2012 Remastered Version<td><b>Current Song</b></td>
-    // Vamos buscar por "Current Song" e pegar o conteúdo da célula anterior
+    console.log('🔍 Extraindo músicas da tabela HTML...');
     
-    console.log('🔍 Procurando por Current Song no HTML...');
+    // Extrair músicas baseado na estrutura real da tabela HTML
+    // Primeiro, buscar pela música atual (linha com "Current Song")
+    const currentSongMatch = html.match(/(\d{2}:\d{2}:\d{2})\s+([^\n]+?)\s+Current Song/i);
+    if (currentSongMatch) {
+      currentSong = currentSongMatch[2].trim();
+      console.log('🎵 Música atual encontrada:', currentSong);
+    }
     
-    // Método 1: Buscar por "<b>Current Song</b>" e pegar o td anterior
-    let match = html.match(/<td[^>]*>([^<]+)<td[^>]*><b>Current Song<\/b>/i);
-    if (match) {
-      currentSong = match[1].trim();
-      console.log('🎵 Método 1 - Música encontrada:', currentSong);
-    } else {
-      // Método 2: Buscar pela primeira linha da tabela (música mais recente)
-      const firstRowMatch = html.match(/<tr[^>]*>\s*<td[^>]*>(\d{2}:\d{2}:\d{2})<\/td>\s*<td[^>]*>([^<]+?)<\/td>/i);
-      if (firstRowMatch) {
-        const songTitle = firstRowMatch[2].trim();
-        const timestamp = firstRowMatch[1];
+    // Extrair todas as músicas usando regex para linhas com timestamp
+    const songMatches = html.matchAll(/(\d{2}:\d{2}:\d{2})\s+([^\n]+?)(?:\s+Current Song)?/gi);
+    
+    for (const match of songMatches) {
+      if (recentSongs.length >= 5) break;
+      
+      const time = match[1];
+      const title = match[2].trim();
+      const isCurrentSong = /Current Song/i.test(match[0]);
+      
+      // Filtrar entradas válidas (ignorar cabeçalhos e texto irrelevante)
+      if (title && title.length > 3 && 
+          !title.includes('Song Title') && 
+          !title.includes('Played @') &&
+          !title.includes('Written by') &&
+          !title.includes('SHOUTcast')) {
         
-        // Verificar se não é apenas o nome da rádio
-        if (songTitle && songTitle !== 'Rádio Tatuapé FM' && songTitle.length > 3) {
-          currentSong = songTitle;
-          console.log('🎵 Método 2 - Primeira música encontrada:', currentSong);
-          console.log('⏰ Timestamp:', timestamp);
-        } else {
-          console.log('⚠️ Primeira linha não contém música válida:', songTitle);
-        }
-      } else {
-        console.log('❌ Nenhum padrão de música encontrado no HTML');
+        recentSongs.push({
+          title,
+          time,
+          isCurrent: isCurrentSong
+        });
+        
+        console.log(`🎵 Histórico [${recentSongs.length}]: ${time} - ${title}${isCurrentSong ? ' (ATUAL)' : ''}`);
       }
     }
+    
+    console.log('🎵 Extração concluída:');
+    console.log('🎵 Música atual:', currentSong);
+    console.log('🎵 Histórico:', recentSongs);
     
     // Contar quantas músicas foram tocadas (cada linha com timestamp)
     const songLines = html.match(/\d{2}:\d{2}:\d{2}\s+.+/g) || [];
     const songsCount = songLines.length;
     
     console.log(`🎼 Total de ${songsCount} músicas no histórico`);
+    console.log(`🎵 Extraídas ${recentSongs.length} músicas recentes:`, recentSongs);
 
     // Dados extraídos
     const radioData = {
@@ -94,12 +107,14 @@ export async function GET() {
       serverStatus: 'Online',
       streamStatus: 'Ao Vivo',
       listeners: 0, // Esse endpoint não tem info de listeners
+      recentSongs, // Adicionar o histórico de músicas
       lastUpdated: new Date().toISOString(),
       debug: {
         responseStatus: response.status,
         htmlLength: html.length,
         songsInHistory: songsCount,
-        foundCurrentSong: match ? true : false
+        foundCurrentSong: currentSong !== 'Rádio Tatuapé FM',
+        recentSongsCount: recentSongs.length
       }
     };
 
@@ -120,6 +135,7 @@ export async function GET() {
       serverStatus: 'Online',
       streamStatus: 'Ao Vivo',
       listeners: 0,
+      recentSongs: [], // Array vazio para evitar erros
       lastUpdated: new Date().toISOString(),
       error: `Erro: ${error instanceof Error ? error.message : 'Desconhecido'}`,
       debug: {

@@ -7,11 +7,18 @@ interface RadioWidgetProps {
   className?: string;
 }
 
+interface RecentSong {
+  title: string;
+  time: string;
+  isCurrent?: boolean;
+}
+
 interface RadioData {
   currentSong: string;
   serverStatus: string;
   streamStatus: string;
   listeners: number;
+  recentSongs?: RecentSong[];
   lastUpdated: string;
   error?: string;
 }
@@ -94,11 +101,14 @@ const RadioWidget: React.FC<RadioWidgetProps> = ({
       {/* Header */}
       <div className="bg-gradient-to-r from-purple-500 to-pink-500 p-4 text-white">
         <div className="flex items-center space-x-3">
-          <img 
-            src="https://static2.mytuner.mobi/media/tvos_radios/545/radio-tatuape-fm.b636f170.jpg" 
-            alt="Rádio Tatuapé FM" 
-            className="w-12 h-12 rounded-lg object-cover shadow-lg"
-          />
+          <div className="relative w-12 h-12">
+            <div className="absolute inset-0 w-12 h-12 rounded-full bg-black/40 shadow-lg"></div>
+            <img 
+              src="/logo-radio-tatuape-fm.png" 
+              alt="Rádio Tatuapé FM" 
+              className="relative w-12 h-12 rounded-full object-contain"
+            />
+          </div>
           <div className="flex-1">
             <h3 className="font-bold text-lg">Rádio Tatuapé FM</h3>
             <div className="flex items-center space-x-2 text-sm opacity-90">
@@ -154,6 +164,52 @@ const RadioWidget: React.FC<RadioWidgetProps> = ({
           </div>
         </div>
       </div>
+
+      {/* Recent Songs History */}
+      {radioData.recentSongs && radioData.recentSongs.length > 0 && (
+        <div className="px-4 py-3 bg-white">
+          <div className="flex items-center justify-between mb-3">
+            <h4 className="text-sm font-semibold text-gray-700 uppercase tracking-wide">Últimas Tocadas</h4>
+            <span className="text-xs text-gray-400">{radioData.recentSongs.length} músicas</span>
+          </div>
+          <div className="space-y-2">
+            {radioData.recentSongs.map((song, index) => (
+              <div key={index} className={`flex items-center justify-between py-2 border-b border-gray-100 last:border-b-0 ${
+                song.isCurrent ? 'bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg px-2 -mx-2' : ''
+              }`}>
+                <div className="flex items-center space-x-3 min-w-0 flex-1">
+                  <div className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center ${
+                    song.isCurrent 
+                      ? 'bg-gradient-to-r from-purple-500 to-pink-500 animate-pulse' 
+                      : 'bg-gradient-to-r from-gray-400 to-gray-500'
+                  }`}>
+                    <Music className="w-3 h-3 text-white" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className={`text-sm truncate ${
+                      song.isCurrent 
+                        ? 'font-semibold text-purple-800' 
+                        : 'font-medium text-gray-700'
+                    }`} title={song.title}>
+                      {song.title}
+                      {song.isCurrent && (
+                        <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                          AO VIVO
+                        </span>
+                      )}
+                    </p>
+                  </div>
+                </div>
+                <span className={`text-xs font-mono ml-2 flex-shrink-0 ${
+                  song.isCurrent ? 'text-purple-600 font-semibold' : 'text-gray-400'
+                }`}>
+                  {song.time}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Play Button */}
       <div className="p-4 bg-gray-50 text-center">
