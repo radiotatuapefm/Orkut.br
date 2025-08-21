@@ -44,6 +44,10 @@ export function Navbar() {
     { icon: Search, label: 'buscar', href: '/buscar' },
   ]
 
+  const handleNavClick = (href: string, label: string) => {
+    console.log(`Navegando para: ${href} (${label})`)
+  }
+
   const handleSignOut = async () => {
     await signOut()
     router.push('/login')
@@ -74,12 +78,13 @@ export function Navbar() {
                   <Link 
                     key={item.href} 
                     href={item.href}
-                    className={`text-white hover:bg-white/20 transition-all duration-200 w-12 h-12 p-0 rounded-xl flex items-center justify-center relative z-10 ${
-                      isActive ? 'bg-white/20 border-b-2 border-white' : ''
+                    onClick={() => handleNavClick(item.href, item.label)}
+                    className={`group text-white hover:bg-white/30 transition-all duration-200 w-12 h-12 p-0 rounded-xl flex items-center justify-center relative z-10 cursor-pointer transform hover:scale-105 ${
+                      isActive ? 'bg-white/30 border-b-2 border-white shadow-lg' : 'hover:shadow-md'
                     }`}
                     title={item.label.charAt(0).toUpperCase() + item.label.slice(1)}
                   >
-                    <Icon className="h-6 w-6" />
+                    <Icon className="h-6 w-6 group-hover:scale-110 transition-transform duration-200" />
                   </Link>
                 )
               })}
@@ -91,10 +96,11 @@ export function Navbar() {
             {/* Messages Icon */}
             <Link 
               href="/recados"
-              className="text-white hover:bg-white/20 w-10 h-10 p-0 rounded-full flex items-center justify-center transition-all duration-200 relative z-10"
+              onClick={() => handleNavClick('/recados', 'mensagens')}
+              className="group text-white hover:bg-white/30 w-10 h-10 p-0 rounded-full flex items-center justify-center transition-all duration-200 relative z-10 cursor-pointer transform hover:scale-105 hover:shadow-md"
               title="Mensagens"
             >
-              <MessageCircle className="h-5 w-5" />
+              <MessageCircle className="h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
             </Link>
 
             {/* Notifications */}
@@ -157,8 +163,13 @@ export function Navbar() {
             </DropdownMenu>
 
             {/* Profile Avatar Only */}
-            <Link href={profile?.username ? `/perfil/${profile.username}` : '/perfil'} title={profile?.display_name}>
-              <Avatar className="h-10 w-10 border-2 border-white hover:border-white/80 transition-colors cursor-pointer">
+            <Link 
+              href={profile?.username ? `/perfil/${profile.username}` : '/perfil'} 
+              onClick={() => handleNavClick(profile?.username ? `/perfil/${profile.username}` : '/perfil', 'perfil')}
+              title={profile?.display_name}
+              className="cursor-pointer transform hover:scale-105 transition-transform duration-200"
+            >
+              <Avatar className="h-10 w-10 border-2 border-white hover:border-white/80 hover:shadow-lg transition-all duration-200 cursor-pointer">
                 <AvatarImage src={profile?.photo_url || undefined} alt={profile?.display_name} />
                 <AvatarFallback className="bg-white text-purple-600 font-semibold">
                   {profile?.display_name?.charAt(0)?.toUpperCase()}
@@ -176,11 +187,16 @@ export function Navbar() {
             const Icon = item.icon
             const isActive = pathname === item.href
             return (
-              <Link key={item.href} href={item.href}>
+              <Link 
+                key={item.href} 
+                href={item.href} 
+                onClick={() => handleNavClick(item.href, item.label)}
+                className="cursor-pointer"
+              >
                 <Button
                   variant="ghost"
                   size="sm"
-                  className={`text-white hover:bg-white/20 transition-all duration-200 flex-col h-auto py-2 ${
+                  className={`text-white hover:bg-white/20 transition-all duration-200 flex-col h-auto py-2 cursor-pointer ${
                     isActive ? 'bg-white/20' : ''
                   }`}
                 >
