@@ -282,66 +282,41 @@ const ProfileContent: React.FC<{ username: string }> = ({ username }) => {
 
           {/* Main Content Area - Central */}
           <div className="space-y-6">
-            {/* Post Composer - Sempre visível */}
-            <OrkutCard>
-              <OrkutCardContent>
-                <div className="flex space-x-3">
-                  <Avatar className="h-12 w-12">
-                    <AvatarImage src={profile.photo_url || undefined} alt={profile.display_name} />
-                    <AvatarFallback className="bg-purple-500 text-white font-bold">
-                      {profile.display_name?.charAt(0)?.toUpperCase()}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="flex-1">
-                    <div className="bg-gradient-to-r from-purple-400 to-pink-400 p-4 rounded-lg text-white mb-3">
-                      <h3 className="font-bold text-lg">{profile.display_name}</h3>
-                      <p className="text-sm opacity-90">O que você está pensando?</p>
-                    </div>
-                    <textarea
-                      placeholder="Compartilhe algo interessante..."
-                      className="w-full p-3 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-300 focus:border-transparent resize-none"
-                      rows={3}
-                    />
-                    <div className="flex items-center justify-between mt-3">
-                      <div className="flex items-center gap-4">
-                        <Button size="sm" variant="ghost" className="text-purple-600 hover:bg-purple-50">
-                          <Camera className="h-4 w-4 mr-1" />
-                          Foto
-                        </Button>
-                        <Button size="sm" variant="ghost" className="text-purple-600 hover:bg-purple-50">
-                          <Video className="h-4 w-4 mr-1" />
-                          Imagem
-                        </Button>
-                        <Button size="sm" variant="ghost" className="text-purple-600 hover:bg-purple-50">
-                          <MessageCircle className="h-4 w-4 mr-1" />
-                          Emoji
-                        </Button>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs text-gray-500">0/500</span>
-                        <Button size="sm" className="bg-purple-500 hover:bg-purple-600 text-white">
-                          Publicar
-                        </Button>
-                      </div>
-                    </div>
+            {/* Quick Actions Card */}
+            {isOwnProfile && (
+              <OrkutCard>
+                <OrkutCardHeader>
+                  <div className="flex items-center space-x-2">
+                    <Settings className="h-4 w-4" />
+                    <span>Ações Rápidas</span>
                   </div>
-                </div>
-              </OrkutCardContent>
-            </OrkutCard>
-            
-            {/* Empty Feed Message */}
-            <OrkutCard>
-              <OrkutCardContent>
-                <div className="text-center py-12 text-gray-500">
-                  <p className="text-lg mb-4">Seu feed está vazio! Que tal seguir alguns amigos ou comunidades?</p>
-                  <Button 
-                    className="bg-purple-500 hover:bg-purple-600 text-white"
-                  >
-                    Buscar Pessoas
-                  </Button>
-                </div>
-              </OrkutCardContent>
-            </OrkutCard>
+                </OrkutCardHeader>
+                <OrkutCardContent>
+                  <div className="grid grid-cols-2 gap-3">
+                    <Button 
+                      variant="outline" 
+                      className="border-purple-300 text-purple-700 hover:bg-purple-50"
+                      onClick={() => {
+                        // Funcionalidade de adicionar foto pode ser implementada futuramente
+                        alert('Funcionalidade em desenvolvimento!');
+                      }}
+                    >
+                      <Camera className="h-4 w-4 mr-2" />
+                      Adicionar Foto
+                    </Button>
+                    <Link href="/">
+                      <Button variant="outline" className="w-full border-purple-300 text-purple-700 hover:bg-purple-50">
+                        <MessageCircle className="h-4 w-4 mr-2" />
+                        Criar Post
+                      </Button>
+                    </Link>
+                  </div>
+                  <p className="text-xs text-gray-500 mt-2 text-center">
+                    Use a página inicial para criar e ver posts dos seus amigos
+                  </p>
+                </OrkutCardContent>
+              </OrkutCard>
+            )}
             
             {/* Profile Info Card */}
             <OrkutCard>
