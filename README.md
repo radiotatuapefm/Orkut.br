@@ -1,6 +1,6 @@
 # 🌟 Orkut.br - Nostalgia Revival
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/juliocamposmachado/Orkut.br)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/radiotatuapefm/Orkut.br)
 
 ## 📸 Preview
 
@@ -46,13 +46,13 @@ Uma recriação moderna do clássico Orkut, construída with tecnologias atuais 
 ## 🚀 Deploy Rápido
 
 ### Opção 1: Deploy Automático
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/juliocamposmachado/Orkut.br)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/radiotatuapefm/Orkut.br)
 
 ### Opção 2: Deploy Manual
 
 1. **Clone o repositório:**
 ```bash
-git clone https://github.com/juliocamposmachado/Orkut.br.git
+git clone https://github.com/radiotatuapefm/Orkut.br.git
 cd Orkut.br
 ```
 
@@ -178,6 +178,13 @@ node setup-database-direct.js
 
 ## 📝 Changelog
 
+### v2.1.1 - Repository Migration & Security Updates
+- ✅ **Migração para radiotatuapefm/Orkut.br** - Repositório atualizado
+- ✅ **Correções de segurança** nas dependências
+- ✅ **Build otimizado** para produção
+- ✅ **Links do README** atualizados
+- ✅ **Deploy automático** configurado
+
 ### v2.1.0 - Performance & UX Improvements
 - ✅ **Correção de loops infinitos** nos contextos
 - ✅ **Otimização de polling** da API da rádio (2min)
@@ -236,6 +243,6 @@ Este projeto é licenciado sob a MIT License - veja o arquivo [LICENSE](LICENSE)
 
 ⭐ **Gostou do projeto? Deixe uma estrela!**
 
-🐛 **Encontrou um bug?** [Abra uma issue](https://github.com/juliocamposmachado/Orkut.br/issues)
+🐛 **Encontrou um bug?** [Abra uma issue](https://github.com/radiotatuapefm/Orkut.br/issues)
 
-💡 **Tem uma sugestão?** [Inicie uma discussão](https://github.com/juliocamposmachado/Orkut.br/discussions)
+💡 **Tem uma sugestão?** [Inicie uma discussão](https://github.com/radiotatuapefm/Orkut.br/discussions)
