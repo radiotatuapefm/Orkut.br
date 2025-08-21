@@ -95,31 +95,11 @@ export default function LoginPage() {
             </span>
           </div>
           <h1 className="text-white text-2xl font-bold mb-2">
-            Orkut - Até o dono do nome ver! 😂🖕
+            Orkut - Até o dono do nome ver! 😂
           </h1>
           <p className="text-purple-100 mb-3">
             A rede social que volta... ou não! 🤷‍♂️💀
           </p>
-          
-          {/* Sarcastic disclaimer */}
-          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3 text-sm text-purple-100">
-            <p className="mb-2">
-              📢 <strong>Aviso importante:</strong> Este é um projeto FAN MADE! 🎭
-            </p>
-            <p className="mb-2">
-              O <a 
-                href="https://www.orkut.com" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-yellow-300 hover:text-yellow-200 underline"
-              >
-                Orkut original
-              </a> ainda diz que "vai voltar" desde 2014... 😴⏰
-            </p>
-            <p className="text-xs opacity-80">
-              💜 Feito com amor (e sarcasmo) por fãs nostálgicos!
-            </p>
-          </div>
         </div>
 
         <Card className="bg-white/95 backdrop-blur-sm border-0 shadow-2xl">
@@ -271,6 +251,26 @@ export default function LoginPage() {
             </div>
           </div>
           
+          {/* Sarcastic disclaimer */}
+          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3 text-sm text-purple-100 mb-6">
+            <p className="mb-2">
+              📢 <strong>Aviso importante:</strong> Este é um projeto FAN MADE! 🎭
+            </p>
+            <p className="mb-2">
+              O <a 
+                href="https://www.orkut.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-yellow-300 hover:text-yellow-200 underline"
+              >
+                Orkut original
+              </a> ainda diz que "vai voltar" desde 2014... 😴⏰
+            </p>
+            <p className="text-xs opacity-80">
+              💜 Feito com amor (e sarcasmo) por fãs nostálgicos!
+            </p>
+          </div>
+          
           {/* Tribute to Orkut Büyükkökten */}
           <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-xs">
             <p className="mb-2 text-purple-200">
@@ -288,7 +288,7 @@ export default function LoginPage() {
                 <span>2004-2014</span>
                 <span>💀</span>
                 <span>Never Forget</span>
-                <span>🖕😢</span>
+                <span>😢</span>
               </p>
             </div>
           </div>
