@@ -27,7 +27,15 @@ import {
   Star,
   Camera,
   Phone,
-  Video
+  Video,
+  Home,
+  UserCheck,
+  MessageSquare,
+  Globe,
+  Bookmark,
+  Clock,
+  Settings,
+  HelpCircle
 } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
@@ -36,6 +44,7 @@ import MyTunerWidget from '@/components/MyTunerWidget'
 import { CommentsModal } from '@/components/posts/comments-modal'
 import { ShareModal } from '@/components/posts/share-modal'
 import { UserMoodDisplay } from '@/components/status/user-mood-display'
+import { SponsoredCarousel } from '@/components/ads/sponsored-carousel'
 
 // Force dynamic rendering
 export const dynamic = 'force-dynamic'
@@ -81,6 +90,140 @@ export default function HomePage() {
     }
   }, [user, loading, router])
 
+  // Demo posts para não deixar o feed vazio
+  const demoPosts: Post[] = [
+    {
+      id: 1,
+      content: "🎉 MEU DEUS QUE SAUDADE DO ORKUT! Obrigada por trazerem de volta essa nostalgia! Esse novo Orkut está muito melhor que o original, com recursos modernos mas mantendo a essência que amamos! ❤️",
+      created_at: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
+      likes_count: 47,
+      comments_count: 12,
+      author: {
+        id: 'demo1',
+        display_name: 'Mariana Santos',
+        photo_url: 'https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=100',
+        username: 'mariana_santos'
+      }
+    },
+    {
+      id: 2,
+      content: "Gente, por que será que o Google nunca trouxe o Orkut original de volta? 🤔 Ainda bem que temos essa versão incrível! Os recursos de voz e chamadas estão SENSACIONAIS! Parabéns aos desenvolvedores! 👏",
+      created_at: new Date(Date.now() - 4 * 60 * 60 * 1000).toISOString(),
+      likes_count: 89,
+      comments_count: 23,
+      author: {
+        id: 'demo2',
+        display_name: 'Carlos Eduardo',
+        photo_url: 'https://images.pexels.com/photos/1040880/pexels-photo-1040880.jpeg?auto=compress&cs=tinysrgb&w=100',
+        username: 'carlos_edu'
+      }
+    },
+    {
+      id: 3,
+      content: "ESSE ORKUT RETRO ESTÁ PERFEITO! 😍 Muito melhor que o original! Tem tudo que a gente amava + recursos que nem sonhávamos em 2004. A rádio integrada é demais! Vou chamar todos os amigos!",
+      created_at: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(),
+      likes_count: 156,
+      comments_count: 34,
+      author: {
+        id: 'demo3',
+        display_name: 'Ana Paula',
+        photo_url: 'https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg?auto=compress&cs=tinysrgb&w=100',
+        username: 'anapaulinha'
+      }
+    },
+    {
+      id: 4,
+      content: "Quem mais está tendo flashbacks dos anos 2000? 📸✨ Este Orkut novo conseguiu capturar perfeitamente a magia do original, mas com uma experiência muito superior! As comunidades estão voltando com força total!",
+      created_at: new Date(Date.now() - 8 * 60 * 60 * 1000).toISOString(),
+      likes_count: 72,
+      comments_count: 18,
+      author: {
+        id: 'demo4',
+        display_name: 'Roberto Silva',
+        photo_url: 'https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=100',
+        username: 'roberto_silva'
+      }
+    },
+    {
+      id: 5,
+      content: "Gente, sinceramente, o Google fez uma burrada gigante encerrando o Orkut original. Mas agora temos algo MUITO MELHOR! 🚀 A interface está linda, responsiva, e os recursos são incríveis. AMANDO!",
+      created_at: new Date(Date.now() - 10 * 60 * 60 * 1000).toISOString(),
+      likes_count: 134,
+      comments_count: 28,
+      author: {
+        id: 'demo5',
+        display_name: 'Juliana Costa',
+        photo_url: 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=100',
+        username: 'ju_costa'
+      }
+    },
+    {
+      id: 6,
+      content: "Acabei de descobrir esse Orkut Retrô e já estou VICIADO! 🎯 Conseguiram fazer algo melhor que o original! O sistema de chamadas de voz é revolucionário para uma rede social. Parabéns, equipe!",
+      created_at: new Date(Date.now() - 12 * 60 * 60 * 1000).toISOString(),
+      likes_count: 203,
+      comments_count: 45,
+      author: {
+        id: 'demo6',
+        display_name: 'Fernando Oliveira',
+        photo_url: 'https://images.pexels.com/photos/1043474/pexels-photo-1043474.jpeg?auto=compress&cs=tinysrgb&w=100',
+        username: 'fernando_oli'
+      }
+    },
+    {
+      id: 7,
+      content: "Teoria conspiratória: o Google sabia que alguém ia criar um Orkut melhor e encerrou o original para não fazer feio 😂 Brincadeiras à parte, este projeto está ESPETACULAR! A nostalgia bateu forte aqui! 💜",
+      created_at: new Date(Date.now() - 14 * 60 * 60 * 1000).toISOString(),
+      likes_count: 98,
+      comments_count: 31,
+      author: {
+        id: 'demo7',
+        display_name: 'Priscila Andrade',
+        photo_url: 'https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=100',
+        username: 'pri_andrade'
+      }
+    },
+    {
+      id: 8,
+      content: "FINALMENTE! Uma rede social que valoriza a amizade de verdade! 👥 Este Orkut novo tem tudo: nostalgia + inovação. O assistente de voz Orky é genial! Quero ver o Facebook fazer igual! 😎",
+      created_at: new Date(Date.now() - 16 * 60 * 60 * 1000).toISOString(),
+      likes_count: 167,
+      comments_count: 52,
+      author: {
+        id: 'demo8',
+        display_name: 'Thiago Souza',
+        photo_url: 'https://images.pexels.com/photos/1040881/pexels-photo-1040881.jpeg?auto=compress&cs=tinysrgb&w=100',
+        username: 'thiago_souza'
+      }
+    },
+    {
+      id: 9,
+      content: "Minha mãe perguntou: 'Por que o Orkut original não volta?' Mostrei este aqui pra ela e ela falou: 'Esse está muito melhor, filho!' 😄 Até a mamãe aprovou! A interface está incrível!",
+      created_at: new Date(Date.now() - 18 * 60 * 60 * 1000).toISOString(),
+      likes_count: 89,
+      comments_count: 19,
+      author: {
+        id: 'demo9',
+        display_name: 'Lucas Pereira',
+        photo_url: 'https://images.pexels.com/photos/1121796/pexels-photo-1121796.jpeg?auto=compress&cs=tinysrgb&w=100',
+        username: 'lucas_pereira'
+      }
+    },
+    {
+      id: 10,
+      content: "Quem mais está montando de novo aquele Top 8 de amigos? 😂 Esse Orkut Retrô me fez voltar à adolescência! E olha que está 1000x melhor que o original. Os recursos modernos fazem toda a diferença! 🌟",
+      created_at: new Date(Date.now() - 20 * 60 * 60 * 1000).toISOString(),
+      likes_count: 245,
+      comments_count: 67,
+      author: {
+        id: 'demo10',
+        display_name: 'Camila Ferreira',
+        photo_url: 'https://images.pexels.com/photos/1181690/pexels-photo-1181690.jpeg?auto=compress&cs=tinysrgb&w=100',
+        username: 'camila_ferreira'
+      }
+    }
+  ]
+
   const loadFeed = async () => {
     try {
       const { data, error } = await supabase
@@ -105,9 +248,12 @@ export default function HomePage() {
         author: post.profiles as any
       })) || []
 
-      setPosts(transformedPosts)
+      // Se não houver posts reais, usar os posts demo
+      setPosts(transformedPosts.length > 0 ? transformedPosts : demoPosts)
     } catch (error) {
       console.error('Error loading feed:', error)
+      // Em caso de erro, usar posts demo
+      setPosts(demoPosts)
     } finally {
       setLoadingPosts(false)
     }
@@ -170,91 +316,147 @@ export default function HomePage() {
       <Navbar />
       
       <div className="max-w-7xl mx-auto px-4 py-6">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr_320px] xl:grid-cols-[300px_1fr_350px] gap-6 min-h-0">
           
           {/* Left Sidebar */}
-          <div className="space-y-6">
-            {/* Profile Summary */}
-            <OrkutCard variant="gradient">
-              <div className="p-4 text-center">
-                <Avatar className="h-20 w-20 mx-auto mb-3 border-4 border-white">
-                  <AvatarImage src={profile.photo_url || undefined} alt={profile.display_name} />
-                  <AvatarFallback>
-                    {profile.display_name.charAt(0).toUpperCase()}
-                  </AvatarFallback>
-                </Avatar>
-                <h3 className="font-bold text-gray-800 mb-1">{profile.display_name}</h3>
-                <p className="text-sm text-gray-600 mb-3">@{profile.username}</p>
-                <Badge variant="secondary" className="mb-3">
-                  {profile.relationship || 'Solteiro(a)'}
-                </Badge>
-                
-                {/* User Status/Mood */}
-                <div className="mb-4">
-                  <UserMoodDisplay />
+          <div className="space-y-4">
+            {/* Sponsored Ads Carousel */}
+            <OrkutCard>
+              <OrkutCardHeader>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium text-gray-600">Patrocinado</span>
+                  <span className="text-xs text-gray-400">Anúncio</span>
                 </div>
-                
+              </OrkutCardHeader>
+              <OrkutCardContent className="p-0">
+                <SponsoredCarousel />
+              </OrkutCardContent>
+            </OrkutCard>
+
+            {/* Navigation Menu */}
+            <OrkutCard>
+              <OrkutCardContent>
+                <div className="space-y-1 p-2">
+                  <Link href="/" className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-purple-50 transition-colors">
+                    <Home className="h-5 w-5 text-purple-600" />
+                    <span className="text-gray-700 font-medium">Início</span>
+                  </Link>
+                  <Link href={`/perfil/${profile.username}`} className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-purple-50 transition-colors">
+                    <Avatar className="h-5 w-5">
+                      <AvatarImage src={profile.photo_url || undefined} alt={profile.display_name} />
+                      <AvatarFallback className="text-xs">
+                        {profile.display_name.charAt(0).toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+                    <span className="text-gray-700">{profile.display_name}</span>
+                  </Link>
+                  <Link href="/amigos" className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-purple-50 transition-colors">
+                    <UserCheck className="h-5 w-5 text-purple-600" />
+                    <span className="text-gray-700">Amigos</span>
+                  </Link>
+                  <Link href="/comunidades" className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-purple-50 transition-colors">
+                    <Users className="h-5 w-5 text-purple-600" />
+                    <span className="text-gray-700">Comunidades</span>
+                  </Link>
+                  <Link href="/mensagens" className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-purple-50 transition-colors">
+                    <MessageSquare className="h-5 w-5 text-purple-600" />
+                    <span className="text-gray-700">Mensagens</span>
+                  </Link>
+                </div>
+              </OrkutCardContent>
+            </OrkutCard>
+
+            {/* Shortcuts */}
+            <OrkutCard>
+              <OrkutCardHeader>
+                <span className="text-gray-600 text-sm font-medium">Seus atalhos</span>
+              </OrkutCardHeader>
+              <OrkutCardContent>
+                <div className="space-y-1">
+                  <div className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-purple-50 transition-colors cursor-pointer">
+                    <div className="w-8 h-8 bg-red-500 rounded-lg flex items-center justify-center text-white text-sm font-bold">
+                      💻
+                    </div>
+                    <span className="text-gray-700 text-sm">Programadores BR</span>
+                  </div>
+                  <div className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-purple-50 transition-colors cursor-pointer">
+                    <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center text-white text-sm font-bold">
+                      🎵
+                    </div>
+                    <span className="text-gray-700 text-sm">Música dos Anos 2000</span>
+                  </div>
+                  <div className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-purple-50 transition-colors cursor-pointer">
+                    <div className="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center text-white text-sm font-bold">
+                      😂
+                    </div>
+                    <span className="text-gray-700 text-sm">Humor e Diversão</span>
+                  </div>
+                </div>
+              </OrkutCardContent>
+            </OrkutCard>
+
+            {/* Quick Actions */}
+            <OrkutCard>
+              <OrkutCardHeader>
+                <span className="text-gray-600 text-sm font-medium">Ações rápidas</span>
+              </OrkutCardHeader>
+              <OrkutCardContent>
                 <div className="space-y-2">
                   <Button 
                     size="sm" 
                     variant="outline" 
-                    className="w-full border-purple-300 text-purple-700 hover:bg-purple-50"
+                    className="w-full justify-start border-purple-300 text-purple-700 hover:bg-purple-50"
+                    onClick={() => router.push('/buscar')}
                   >
-                    <Phone className="h-4 w-4 mr-2" />
-                    Chamada de Áudio
+                    <Search className="h-4 w-4 mr-2" />
+                    Buscar pessoas
                   </Button>
                   <Button 
                     size="sm" 
                     variant="outline" 
-                    className="w-full border-purple-300 text-purple-700 hover:bg-purple-50"
+                    className="w-full justify-start border-purple-300 text-purple-700 hover:bg-purple-50"
+                    onClick={() => router.push('/comunidades/criar')}
                   >
-                    <Video className="h-4 w-4 mr-2" />
-                    Chamada de Vídeo
-                  </Button>
-                </div>
-              </div>
-            </OrkutCard>
-
-            {/* Birthdays */}
-            <OrkutCard>
-              <OrkutCardHeader>
-                <div className="flex items-center space-x-2">
-                  <Calendar className="h-4 w-4" />
-                  <span>Aniversários</span>
-                </div>
-              </OrkutCardHeader>
-              <OrkutCardContent>
-                <div className="text-center py-4">
-                  <p className="text-sm text-gray-600 mb-2">
-                    🎂 Hoje é aniversário do Paulo!
-                  </p>
-                  <p className="text-xs text-gray-500 mb-3">
-                    Ele faz 55 anos
-                  </p>
-                  <Button size="sm" className="bg-purple-500 hover:bg-purple-600">
-                    Parabenizar
+                    <Plus className="h-4 w-4 mr-2" />
+                    Criar comunidade
                   </Button>
                 </div>
               </OrkutCardContent>
             </OrkutCard>
 
-            {/* Recent Photos */}
+            {/* Recent Activity */}
             <OrkutCard>
               <OrkutCardHeader>
                 <div className="flex items-center space-x-2">
-                  <Camera className="h-4 w-4" />
-                  <span>Fotos Recentes</span>
+                  <Clock className="h-4 w-4" />
+                  <span className="text-gray-600 text-sm font-medium">Atividade recente</span>
                 </div>
               </OrkutCardHeader>
               <OrkutCardContent>
-                <div className="grid grid-cols-3 gap-2">
-                  {Array.from({ length: 6 }).map((_, idx) => (
-                    <div key={idx} className="aspect-square bg-gray-200 rounded-md overflow-hidden">
+                <div className="text-center py-4 text-gray-500">
+                  <p className="text-sm">Nenhuma atividade recente</p>
+                </div>
+              </OrkutCardContent>
+            </OrkutCard>
+
+            {/* Top Friends */}
+            <OrkutCard>
+              <OrkutCardHeader>
+                <div className="flex items-center space-x-2">
+                  <Star className="h-4 w-4" />
+                  <span>Top 10 Amigos</span>
+                </div>
+              </OrkutCardHeader>
+              <OrkutCardContent>
+                <div className="grid grid-cols-2 gap-3">
+                  {Array.from({ length: 8 }).map((_, idx) => (
+                    <div key={idx} className="text-center">
                       <img 
-                        src={`https://images.pexels.com/photos/${1000000 + idx}/pexels-photo-${1000000 + idx}.jpeg?auto=compress&cs=tinysrgb&w=100`}
-                        alt={`Foto ${idx + 1}`}
-                        className="w-full h-full object-cover hover:opacity-80 transition-opacity cursor-pointer"
+                        src={`https://images.pexels.com/photos/${220000 + idx}/pexels-photo-${220000 + idx}.jpeg?auto=compress&cs=tinysrgb&w=100`}
+                        alt={`Amigo ${idx + 1}`}
+                        className="w-12 h-12 rounded-full mx-auto mb-1 object-cover hover:opacity-80 transition-opacity cursor-pointer"
                       />
+                      <p className="text-xs text-gray-600">Amigo {idx + 1}</p>
                     </div>
                   ))}
                 </div>
@@ -262,10 +464,112 @@ export default function HomePage() {
             </OrkutCard>
           </div>
 
-          {/* Main Content */}
-          <div className="lg:col-span-2 space-y-6">
+          {/* Main Content - Postagens no meio */}
+          <div className="space-y-6">
             {/* Post Composer */}
             <CreatePost onPostCreated={loadFeed} />
+
+            {/* Friends Recent Photos */}
+            <OrkutCard>
+              <OrkutCardContent>
+                <div className="flex items-center space-x-3 overflow-x-auto pb-2 scrollbar-hide max-w-lg lg:max-w-xl xl:max-w-2xl">
+                  {/* Criar Story/Foto */}
+                  <div className="flex-shrink-0">
+                    <div className="relative w-20 h-28 bg-gradient-to-b from-purple-100 to-purple-200 rounded-lg overflow-hidden cursor-pointer hover:from-purple-200 hover:to-purple-300 transition-all group">
+                      <div className="absolute inset-0 flex flex-col items-center justify-center">
+                        <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center mb-1 group-hover:bg-purple-600 transition-colors">
+                          <Plus className="h-4 w-4 text-white" />
+                        </div>
+                        <span className="text-xs font-medium text-purple-700 text-center px-1 leading-tight">Adicionar Foto</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Friends Photos - Limitado a apenas 3 para não quebrar o layout */}
+                  {[
+                    {
+                      name: 'Ana Carolina',
+                      avatar: 'https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=100',
+                      photo: 'https://images.pexels.com/photos/1559486/pexels-photo-1559486.jpeg?auto=compress&cs=tinysrgb&w=200&h=300',
+                      timeAgo: '2h'
+                    },
+                    {
+                      name: 'Carlos Eduardo', 
+                      avatar: 'https://images.pexels.com/photos/1040880/pexels-photo-1040880.jpeg?auto=compress&cs=tinysrgb&w=100',
+                      photo: 'https://images.pexels.com/photos/1172253/pexels-photo-1172253.jpeg?auto=compress&cs=tinysrgb&w=200&h=300',
+                      timeAgo: '4h'
+                    },
+                    {
+                      name: 'Mariana Silva',
+                      avatar: 'https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg?auto=compress&cs=tinysrgb&w=100', 
+                      photo: 'https://images.pexels.com/photos/1545590/pexels-photo-1545590.jpeg?auto=compress&cs=tinysrgb&w=200&h=300',
+                      timeAgo: '6h'
+                    }
+                  ].slice(0, 3).map((friend, idx) => (
+                    <div key={idx} className="flex-shrink-0">
+                      <div className="relative w-20 h-28 rounded-lg overflow-hidden cursor-pointer group">
+                        {/* Friend's Photo */}
+                        <img 
+                          src={friend.photo}
+                          alt={`Foto de ${friend.name}`}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+                        />
+                        {/* Gradient Overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20"></div>
+                        
+                        {/* Friend Avatar */}
+                        <div className="absolute top-1 left-1">
+                          <Avatar className="h-5 w-5 border-2 border-white">
+                            <AvatarImage src={friend.avatar} alt={friend.name} />
+                            <AvatarFallback className="text-xs">
+                              {friend.name.split(' ').map(n => n[0]).join('').toUpperCase()}
+                            </AvatarFallback>
+                          </Avatar>
+                        </div>
+                        
+                        {/* Friend Name */}
+                        <div className="absolute bottom-1 left-1 right-1">
+                          <p className="text-white text-xs font-medium truncate leading-tight">{friend.name.split(' ')[0]}</p>
+                          <p className="text-white/80 text-xs">{friend.timeAgo}</p>
+                        </div>
+                        
+                        {/* Hover Actions */}
+                        <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                          <div className="flex space-x-1">
+                            <Button 
+                              size="sm" 
+                              variant="ghost" 
+                              className="p-1 h-5 w-5 text-white hover:bg-white/20"
+                              title="Curtir"
+                            >
+                              <Heart className="h-3 w-3" />
+                            </Button>
+                            <Button 
+                              size="sm" 
+                              variant="ghost" 
+                              className="p-1 h-5 w-5 text-white hover:bg-white/20"
+                              title="Comentar"
+                            >
+                              <MessageCircle className="h-3 w-3" />
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                  
+                  {/* Botão Ver Mais */}
+                  <div className="flex-shrink-0">
+                    <div className="relative w-20 h-28 bg-gradient-to-b from-gray-100 to-gray-200 rounded-lg overflow-hidden cursor-pointer hover:from-gray-200 hover:to-gray-300 transition-all group flex items-center justify-center">
+                      <div className="text-center">
+                        <Eye className="h-5 w-5 text-gray-600 mx-auto mb-1" />
+                        <span className="text-xs font-medium text-gray-700">Ver mais</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </OrkutCardContent>
+            </OrkutCard>
 
             {/* Feed Posts */}
             {loadingPosts ? (
@@ -372,6 +676,128 @@ export default function HomePage() {
             {/* Radio Widget */}
             <MyTunerWidget className="shadow-md" />
 
+            {/* Contacts/Friends Online */}
+            <OrkutCard>
+              <OrkutCardHeader>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-2">
+                    <MessageSquare className="h-4 w-4" />
+                    <span>Contatos</span>
+                  </div>
+                  <div className="flex items-center space-x-1">
+                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                    <span className="text-xs text-gray-500">3 online</span>
+                  </div>
+                </div>
+              </OrkutCardHeader>
+              <OrkutCardContent>
+                <div className="space-y-1 max-h-60 overflow-y-auto">
+                  {/* Online Friends */}
+                  {[
+                    { 
+                      name: 'Ana Carolina', 
+                      avatar: 'https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=100',
+                      status: 'online',
+                      lastSeen: 'Agora'
+                    },
+                    { 
+                      name: 'Carlos Eduardo', 
+                      avatar: 'https://images.pexels.com/photos/1040880/pexels-photo-1040880.jpeg?auto=compress&cs=tinysrgb&w=100',
+                      status: 'online',
+                      lastSeen: 'Agora'
+                    },
+                    { 
+                      name: 'Mariana Silva', 
+                      avatar: 'https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg?auto=compress&cs=tinysrgb&w=100',
+                      status: 'online',
+                      lastSeen: 'Agora'
+                    },
+                    { 
+                      name: 'João Santos', 
+                      avatar: 'https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=100',
+                      status: 'away',
+                      lastSeen: '5 min atrás'
+                    },
+                    { 
+                      name: 'Patricia Lima', 
+                      avatar: 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=100',
+                      status: 'offline',
+                      lastSeen: '2h atrás'
+                    },
+                    { 
+                      name: 'Roberto Costa', 
+                      avatar: 'https://images.pexels.com/photos/1043474/pexels-photo-1043474.jpeg?auto=compress&cs=tinysrgb&w=100',
+                      status: 'offline',
+                      lastSeen: '1d atrás'
+                    },
+                    { 
+                      name: 'Fernanda Oliveira', 
+                      avatar: 'https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=100',
+                      status: 'offline',
+                      lastSeen: '3d atrás'
+                    },
+                    { 
+                      name: 'Lucas Pereira', 
+                      avatar: 'https://images.pexels.com/photos/1121796/pexels-photo-1121796.jpeg?auto=compress&cs=tinysrgb&w=100',
+                      status: 'offline',
+                      lastSeen: '1 semana atrás'
+                    }
+                  ].map((friend, idx) => (
+                    <div key={idx} className="flex items-center space-x-3 px-2 py-2 rounded-lg hover:bg-purple-50 transition-colors cursor-pointer group">
+                      <div className="relative">
+                        <Avatar className="h-8 w-8">
+                          <AvatarImage src={friend.avatar} alt={friend.name} />
+                          <AvatarFallback className="text-xs">
+                            {friend.name.split(' ').map(n => n[0]).join('').toUpperCase()}
+                          </AvatarFallback>
+                        </Avatar>
+                        {/* Status indicator */}
+                        <div className={`absolute -bottom-1 -right-1 w-3 h-3 rounded-full border-2 border-white ${
+                          friend.status === 'online' ? 'bg-green-500' : 
+                          friend.status === 'away' ? 'bg-yellow-500' : 'bg-gray-400'
+                        }`}></div>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium text-gray-900 truncate">{friend.name}</p>
+                        <p className="text-xs text-gray-500 truncate">
+                          {friend.status === 'online' ? 'Online' : friend.lastSeen}
+                        </p>
+                      </div>
+                      {/* Chat actions - show on hover */}
+                      <div className="opacity-0 group-hover:opacity-100 transition-opacity flex space-x-1">
+                        <Button 
+                          size="sm" 
+                          variant="ghost" 
+                          className="p-1 h-6 w-6 text-purple-600 hover:bg-purple-100"
+                          title="Enviar mensagem"
+                        >
+                          <MessageCircle className="h-3 w-3" />
+                        </Button>
+                        <Button 
+                          size="sm" 
+                          variant="ghost" 
+                          className="p-1 h-6 w-6 text-purple-600 hover:bg-purple-100"
+                          title="Chamada de vídeo"
+                        >
+                          <Video className="h-3 w-3" />
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-3 pt-3 border-t border-gray-100">
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="w-full border-purple-300 text-purple-700 hover:bg-purple-50"
+                    onClick={() => router.push('/amigos')}
+                  >
+                    Ver todos os contatos
+                  </Button>
+                </div>
+              </OrkutCardContent>
+            </OrkutCard>
+
             {/* Communities in Spotlight */}
             <OrkutCard>
               <OrkutCardHeader>
@@ -429,30 +855,6 @@ export default function HomePage() {
                         className="w-full aspect-square rounded-lg object-cover mb-1 hover:opacity-80 transition-opacity cursor-pointer"
                       />
                       <p className="text-xs text-gray-600 truncate">{community.name}</p>
-                    </div>
-                  ))}
-                </div>
-              </OrkutCardContent>
-            </OrkutCard>
-
-            {/* Top Friends */}
-            <OrkutCard>
-              <OrkutCardHeader>
-                <div className="flex items-center space-x-2">
-                  <Star className="h-4 w-4" />
-                  <span>Top 10 Amigos</span>
-                </div>
-              </OrkutCardHeader>
-              <OrkutCardContent>
-                <div className="grid grid-cols-2 gap-3">
-                  {Array.from({ length: 8 }).map((_, idx) => (
-                    <div key={idx} className="text-center">
-                      <img 
-                        src={`https://images.pexels.com/photos/${220000 + idx}/pexels-photo-${220000 + idx}.jpeg?auto=compress&cs=tinysrgb&w=100`}
-                        alt={`Amigo ${idx + 1}`}
-                        className="w-12 h-12 rounded-full mx-auto mb-1 object-cover hover:opacity-80 transition-opacity cursor-pointer"
-                      />
-                      <p className="text-xs text-gray-600">Amigo {idx + 1}</p>
                     </div>
                   ))}
                 </div>

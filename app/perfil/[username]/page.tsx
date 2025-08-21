@@ -35,6 +35,7 @@ import {
   UserPlus,
   Clock
 } from 'lucide-react';
+import { UserMoodDisplay } from '@/components/status/user-mood-display';
 import Link from 'next/link';
 import { formatDistanceToNow } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
@@ -207,6 +208,13 @@ const ProfileContent: React.FC<{ username: string }> = ({ username }) => {
                   
                   <h3 className="font-bold text-gray-800 text-lg mb-1">{profile.display_name}</h3>
                   <p className="text-sm text-gray-600 mb-3">@{profile.username}</p>
+                  
+                  {/* User Status/Mood - apenas no próprio perfil */}
+                  {isOwnProfile && (
+                    <div className="mb-4">
+                      <UserMoodDisplay />
+                    </div>
+                  )}
                   
                   <p className="text-sm text-gray-700 mb-4">{profile.relationship || 'Solteiro(a)'}</p>
                   
