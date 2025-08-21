@@ -86,7 +86,7 @@ const RadioWidget: React.FC<RadioWidgetProps> = ({
   useEffect(() => {
     fetchData(); // Busca inicial
     
-    const interval = setInterval(fetchData, 120000); // 2 minutos para reduzir carga
+    const interval = setInterval(fetchData, 300000); // 5 minutos para reduzir carga
     
     return () => clearInterval(interval);
   }, []); // Remove fetchData dependency to prevent infinite loop

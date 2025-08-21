@@ -10,7 +10,7 @@ import { StructuredData } from '@/components/seo/structured-data';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://orkut-864g4zydz-astridnielsen-labs-projects.vercel.app'),
+  metadataBase: new URL('https://orkut-br-gamma.vercel.app'),
   title: {
     default: 'Orkut Retrô - A rede social que você ama | by Julio Campos Machado',
     template: '%s | Orkut Retrô - Like Look Solutions'
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'pt_BR',
-    url: 'https://orkut-864g4zydz-astridnielsen-labs-projects.vercel.app',
+    url: 'https://orkut-br-gamma.vercel.app',
     siteName: 'Orkut Retrô',
     title: 'Orkut Retrô - A rede social que você ama',
     description: 'Reviva os momentos especiais do Orkut com recursos modernos. Desenvolvido por Julio Campos Machado da Like Look Solutions.',
@@ -111,7 +111,7 @@ export default function RootLayout({
         <meta name="company" content="Like Look Solutions" />
         <meta name="contact" content="juliocamposmachado@gmail.com" />
         <meta name="phone" content="+5511992946628" />
-        <link rel="canonical" href="https://orkut-864g4zydz-astridnielsen-labs-projects.vercel.app" />
+        <link rel="canonical" href="https://orkut-br-gamma.vercel.app" />
       </head>
       <body className={inter.className}>
         <StructuredData />

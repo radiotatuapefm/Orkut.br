@@ -6,7 +6,7 @@ export const dynamic = 'force-dynamic';
 // Cache simples em memória para evitar múltiplas requisições
 let cachedData: any = null;
 let lastFetch = 0;
-const CACHE_DURATION = 120000; // 2 minutos de cache para reduzir carga
+const CACHE_DURATION = 300000; // 5 minutos de cache para reduzir carga
 
 export async function GET() {
   try {

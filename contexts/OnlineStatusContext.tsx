@@ -32,10 +32,18 @@ export const OnlineStatusProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
   // Conectar ao servidor de signaling
   useEffect(() => {
+    // Desabilitar socket em produção para evitar loops infinitos
+    const isProduction = process.env.VERCEL === '1';
+    if (isProduction) {
+      console.log('🌐 Socket desabilitado em produção para performance');
+      setIsConnected(false);
+      return;
+    }
+    
     if (user && !socket) {
       try {
         const socketUrl = process.env.NODE_ENV === 'production' 
-          ? 'https://orkut-br.vercel.app'
+          ? 'https://orkut-br-gamma.vercel.app'
           : 'http://localhost:5001';
         
         const newSocket = io(socketUrl, {
