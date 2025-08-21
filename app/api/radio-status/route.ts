@@ -55,22 +55,22 @@ export async function GET() {
     
     console.log('🔍 Extraindo músicas da tabela HTML...');
     
-    // Extrair músicas baseado na estrutura real da tabela HTML
+    // Extrair músicas baseado na estrutura HTML real (com tags <td>)
     // Primeiro, buscar pela música atual (linha com "Current Song")
-    const currentSongMatch = html.match(/(\d{2}:\d{2}:\d{2})\s+([^\n]+?)\s+Current Song/i);
+    const currentSongMatch = html.match(/(\d{2}:\d{2}:\d{2})<\/td><td>([^<]+)<td><b>Current Song<\/b>/);
     if (currentSongMatch) {
       currentSong = currentSongMatch[2].trim();
       console.log('🎵 Música atual encontrada:', currentSong);
     }
     
-    // Extrair todas as músicas usando abordagem compatível com TypeScript
-    const songRegex = /(\d{2}:\d{2}:\d{2})\s+([^\n]+?)(?:\s+Current Song)?/gi;
+    // Extrair todas as músicas usando a estrutura HTML correta
+    const songRegex = /(\d{2}:\d{2}:\d{2})<\/td><td>([^<]+)/gi;
     let match;
     
     while ((match = songRegex.exec(html)) !== null && recentSongs.length < 5) {
       const time = match[1];
       const title = match[2].trim();
-      const isCurrentSong = /Current Song/i.test(match[0]);
+      const isCurrent = html.includes(`${time}</td><td>${title}<td><b>Current Song</b>`);
       
       // Filtrar entradas válidas (ignorar cabeçalhos e texto irrelevante)
       if (title && title.length > 3 && 
@@ -82,10 +82,10 @@ export async function GET() {
         recentSongs.push({
           title,
           time,
-          isCurrent: isCurrentSong
+          isCurrent: isCurrent
         });
         
-        console.log(`🎵 Histórico [${recentSongs.length}]: ${time} - ${title}${isCurrentSong ? ' (ATUAL)' : ''}`);
+        console.log(`🎵 Histórico [${recentSongs.length}]: ${time} - ${title}${isCurrent ? ' (ATUAL)' : ''}`);
       }
     }
     
