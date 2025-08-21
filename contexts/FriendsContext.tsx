@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
 import { supabase } from '@/lib/supabase';
-import { useAuth } from './AuthContext';
+import { useAuth } from './auth-context-fallback';
 
 interface Friend {
   friend_id: string;
