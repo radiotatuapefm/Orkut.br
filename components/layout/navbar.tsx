@@ -14,8 +14,7 @@ import {
   Settings,
   LogOut,
   Mic,
-  MicOff,
-  Music
+  MicOff
 } from 'lucide-react'
 import { useAuth } from '@/contexts/auth-context-fallback'
 import { useVoice } from '@/contexts/voice-context'
@@ -32,7 +31,6 @@ export function Navbar() {
     { icon: User, label: 'perfil', href: profile?.username ? `/perfil/${profile.username}` : '/perfil' },
     { icon: Users, label: 'amigos', href: '/amigos' },
     { icon: Users, label: 'comunidades', href: '/comunidades' },
-    { icon: Music, label: 'playlists', href: '/playlists' },
     { icon: MessageCircle, label: 'mensagens', href: '/recados' },
     { icon: Search, label: 'buscar', href: '/buscar' },
   ]
