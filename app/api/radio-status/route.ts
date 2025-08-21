@@ -60,7 +60,7 @@ export async function GET() {
     // Extrair música atual das tags <b> no HTML
     // A música atual é geralmente a última tag <b> que não seja informação do sistema
     const boldMatches: RegExpMatchArray[] = [];
-    const regex = /<b>([^<]+)</b>/g;
+    const regex = /<b>([^<]+)<\/b>/g;
     let match;
     while ((match = regex.exec(html)) !== null) {
       boldMatches.push(match);
