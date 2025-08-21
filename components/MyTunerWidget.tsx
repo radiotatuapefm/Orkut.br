@@ -67,7 +67,7 @@ const RadioWidget: React.FC<RadioWidgetProps> = ({
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, []); // Remove dependency to prevent infinite loop
 
   // Função para atualização manual
   const handleManualRefresh = async () => {
@@ -79,10 +79,10 @@ const RadioWidget: React.FC<RadioWidgetProps> = ({
   useEffect(() => {
     fetchData(); // Busca inicial
     
-    const interval = setInterval(fetchData, 60000); // 1 minuto
+    const interval = setInterval(fetchData, 120000); // 2 minutos para reduzir carga
     
     return () => clearInterval(interval);
-  }, [fetchData]);
+  }, []); // Remove fetchData dependency to prevent infinite loop
 
   // Função para abrir o site da rádio
   const openRadioWebsite = () => {

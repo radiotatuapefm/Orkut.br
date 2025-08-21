@@ -46,7 +46,7 @@ export function VoiceProvider({ children }: VoiceProviderProps) {
   useEffect(() => {
     if (user && isVoiceEnabled) {
       const channel = supabase
-        .channel('notifications')
+        .channel(`notifications-${user.id}`)
         .on('postgres_changes',
           { 
             event: 'INSERT', 
@@ -64,7 +64,7 @@ export function VoiceProvider({ children }: VoiceProviderProps) {
         supabase.removeChannel(channel)
       }
     }
-  }, [user, isVoiceEnabled])
+  }, [user, isVoiceEnabled]) // Keep dependencies as needed
 
   const loadVoiceSettings = async () => {
     if (!user) return

@@ -110,10 +110,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
       }
     }
     
-    // Always stop loading after 2 seconds max
-    setTimeout(() => {
+    // Always stop loading after 1 second to improve UX
+    const loadingTimeout = setTimeout(() => {
       setLoading(false)
-    }, 2000)
+    }, 1000)
+    
+    return () => clearTimeout(loadingTimeout)
   }, [])
 
   const signIn = async (email: string, password: string) => {

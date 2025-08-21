@@ -117,7 +117,7 @@ export const OnlineStatusProvider: React.FC<{ children: React.ReactNode }> = ({ 
         setIsConnected(false);
       }
     }
-  }, [user, socket]);
+  }, [user, profile]); // Remove socket dependency to prevent re-creation loop
 
   // Auto-away quando inativo
   useEffect(() => {
@@ -162,7 +162,7 @@ export const OnlineStatusProvider: React.FC<{ children: React.ReactNode }> = ({ 
     if (socket && isConnected) {
       const heartbeat = setInterval(() => {
         socket.emit('ping');
-      }, 30000); // 30 segundos
+      }, 60000); // Aumentar para 1 minuto para reduzir carga
 
       return () => clearInterval(heartbeat);
     }

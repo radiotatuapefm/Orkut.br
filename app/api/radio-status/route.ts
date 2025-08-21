@@ -6,7 +6,7 @@ export const dynamic = 'force-dynamic';
 // Cache simples em memória para evitar múltiplas requisições
 let cachedData: any = null;
 let lastFetch = 0;
-const CACHE_DURATION = 60000; // 1 minuto de cache
+const CACHE_DURATION = 120000; // 2 minutos de cache para reduzir carga
 
 export async function GET() {
   try {
@@ -37,7 +37,7 @@ export async function GET() {
         'Connection': 'keep-alive'
       },
       cache: 'no-store', // Sempre buscar dados frescos
-      signal: AbortSignal.timeout(10000) // Timeout de 10 segundos
+      signal: AbortSignal.timeout(8000) // Reduzir timeout para 8 segundos
     });
 
     console.log(`📡 Response status: ${response.status}`);
